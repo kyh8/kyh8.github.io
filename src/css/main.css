@@ -522,6 +522,31 @@ body {
   opacity: 0.7;
 }
 
-.details-container {
+#details-container {
   margin-top: 30px;
+}
+.detail-header {
+  font-size: 32px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.detail-item {
+  font-size: 20px;
+  margin-top: 10px;
+  text-align: left;
+  width: 320px;
+  padding-left: 60px;
+}
+.detail-item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+}
+.coursework-list .h-divider {
+  margin: 0;
+  width: 200px;
+  margin-top: 5px;
 }

@@ -30674,6 +30674,9 @@ var MajorList = React.createClass({
             this.setState({
               animating: false,
               pinned: true
+            }, function () {
+              var detailsContainer = document.getElementById('details-container');
+              detailsContainer.style.opacity = 1;
             });
             $('.back-button').fadeIn(300);
           }.bind(this), animationTime);
@@ -30689,7 +30692,8 @@ var MajorList = React.createClass({
     }
     var element = document.getElementById('resume-category-wrapper-' + category);
     element.style.opacity = 0;
-    console.log('deselect', category);
+    var detailsContainer = document.getElementById('details-container');
+    detailsContainer.style.opacity = 0;
     $('.back-button').fadeOut(300);
     $('.resume-category-header.' + category).removeClass('animate-pin').addClass('animate-unpin');
     setTimeout(function () {
@@ -30819,6 +30823,105 @@ var MajorList = React.createClass({
     });
     return categoryElements;
   },
+  renderDetails: function renderDetails() {
+    console.log(this.state.pinnedCategory.displayName);
+    switch (this.state.pinnedCategory.name) {
+      case 'coursework':
+        return React.createElement(
+          'div',
+          { className: 'coursework-list' },
+          React.createElement(
+            'div',
+            null,
+            React.createElement(
+              'div',
+              { className: 'detail-header' },
+              React.createElement(
+                'div',
+                null,
+                React.createElement('i', { className: 'fa fa-code-fork', 'aria-hidden': 'true' }),
+                React.createElement(
+                  'span',
+                  null,
+                  '  Project-Based'
+                )
+              ),
+              React.createElement('hr', { className: 'h-divider' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'detail-item-container' },
+              React.createElement(
+                'div',
+                { className: 'detail-item' },
+                'Software Design & Implementation'
+              ),
+              React.createElement(
+                'div',
+                { className: 'detail-item' },
+                'Computer Architecture'
+              ),
+              React.createElement(
+                'div',
+                { className: 'detail-item' },
+                'Operating Systems'
+              ),
+              React.createElement(
+                'div',
+                { className: 'detail-item' },
+                'Artificial Intelligence'
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'detail-header' },
+              React.createElement(
+                'div',
+                null,
+                React.createElement('i', { className: 'fa fa-lightbulb-o', 'aria-hidden': 'true' }),
+                React.createElement(
+                  'span',
+                  null,
+                  '  Theory'
+                )
+              ),
+              React.createElement('hr', { className: 'h-divider' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'detail-item-container' },
+              React.createElement(
+                'div',
+                { className: 'detail-item' },
+                'Design & Analysis of Algorithms'
+              ),
+              React.createElement(
+                'div',
+                { className: 'detail-item' },
+                'Discrete Math for Computer Science'
+              ),
+              React.createElement(
+                'div',
+                { className: 'detail-item' },
+                'Algorithms & Data Structures'
+              )
+            )
+          )
+        );
+      case 'projects':
+        return React.createElement(
+          'div',
+          null,
+          'projects'
+        );
+      case 'work':
+        return React.createElement(
+          'div',
+          null,
+          'work'
+        );
+    }
+  },
   render: function render() {
     return React.createElement(
       'div',
@@ -30846,12 +30949,8 @@ var MajorList = React.createClass({
             this.state.pinnedCategory !== null ? this.renderPinnedHeader(this.state.pinnedCategory) : null,
             React.createElement(
               'div',
-              { className: 'details-container' },
-              this.state.pinned == true ? React.createElement(
-                'div',
-                null,
-                this.state.pinnedCategory.displayName
-              ) : null
+              { id: 'details-container' },
+              this.state.pinned == true ? this.renderDetails() : null
             )
           )
         ),

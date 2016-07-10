@@ -174,6 +174,9 @@ var MajorList = React.createClass({
             this.setState({
               animating: false,
               pinned: true,
+            }, function() {
+              var detailsContainer = document.getElementById('details-container');
+              detailsContainer.style.opacity = 1;
             });
             $('.back-button').fadeIn(300);
           }).bind(this), animationTime);
@@ -187,7 +190,8 @@ var MajorList = React.createClass({
     }
     var element = document.getElementById('resume-category-wrapper-' + category);
     element.style.opacity = 0;
-    console.log('deselect', category);
+    var detailsContainer = document.getElementById('details-container');
+    detailsContainer.style.opacity = 0;
     $('.back-button').fadeOut(300);
     $('.resume-category-header.' + category)
       .removeClass('animate-pin')
@@ -294,6 +298,69 @@ var MajorList = React.createClass({
     });
     return categoryElements;
   },
+  renderDetails: function() {
+    console.log(this.state.pinnedCategory.displayName);
+    switch (this.state.pinnedCategory.name) {
+      case 'coursework':
+        return (
+          <div className='coursework-list'>
+            <div>
+              <div className='detail-header'>
+                <div>
+                  <i className="fa fa-code-fork" aria-hidden="true"></i>
+                  <span>  Project-Based</span>
+                </div>
+                <hr className="h-divider" />
+              </div>
+              <div className='detail-item-container'>
+                <div className='detail-item'>
+                  Software Design & Implementation
+                </div>
+                <div className='detail-item'>
+                  Computer Architecture
+                </div>
+                <div className='detail-item'>
+                  Operating Systems
+                </div>
+                <div className='detail-item'>
+                  Artificial Intelligence
+                </div>
+              </div>
+              <div className='detail-header'>
+                <div>
+                  <i className="fa fa-lightbulb-o" aria-hidden="true"></i>
+                  <span>  Theory</span>
+                </div>
+                <hr className="h-divider" />
+              </div>
+              <div className='detail-item-container'>
+                <div className='detail-item'>
+                  Design & Analysis of Algorithms
+                </div>
+                <div className='detail-item'>
+                  Discrete Math for Computer Science
+                </div>
+                <div className='detail-item'>
+                  Algorithms & Data Structures
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'projects':
+        return (
+          <div>
+            projects
+          </div>
+        );
+      case 'work':
+        return (
+          <div>
+            work
+          </div>
+        );
+    }
+  },
   render: function() {
     return (
       <div>
@@ -309,13 +376,10 @@ var MajorList = React.createClass({
                 this.state.pinnedCategory !== null ?
                 this.renderPinnedHeader(this.state.pinnedCategory) : null
               }
-              <div className="details-container">
+              <div id="details-container">
               {
                 this.state.pinned == true
-                ?
-                (<div>
-                  {this.state.pinnedCategory.displayName}
-                </div>)
+                ? this.renderDetails()
                 : null
               }
               </div>
