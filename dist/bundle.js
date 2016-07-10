@@ -30447,9 +30447,6 @@ var styles = {
   contactLine: {
     marginLeft: 10
   },
-  contactItem: {
-    marginTop: 10
-  },
   contactInfo: {
     display: 'inline-block'
   },
@@ -30462,10 +30459,34 @@ var styles = {
 var ContactItem = React.createClass({
   displayName: 'ContactItem',
 
+  getInitialState: function getInitialState() {
+    return {
+      hoverText: null
+    };
+  },
+  contactItemEnter: function contactItemEnter(text) {
+    if (text === undefined) {
+      return;
+    }
+    this.setState({
+      hoverText: text
+    });
+  },
+  contactItemLeave: function contactItemLeave(text) {
+    if (text === undefined) {
+      return;
+    }
+    this.setState({
+      hoverText: null
+    });
+  },
   render: function render() {
     return React.createElement(
       'div',
-      { className: 'contact-item' },
+      {
+        className: 'contact-item',
+        onMouseEnter: this.contactItemEnter.bind(this, this.props.info.hoverText),
+        onMouseLeave: this.contactItemLeave.bind(this, this.props.info.hoverText) },
       React.createElement(
         'div',
         { className: 'contact-icon' },
@@ -30473,7 +30494,12 @@ var ContactItem = React.createClass({
           'a',
           { href: this.props.info.link, style: { textDecoration: 'none', color: 'black' } },
           React.createElement('i', { className: "fa fa-" + this.props.info.icon, 'aria-hidden': 'true' })
-        )
+        ),
+        this.state.hoverText !== null ? React.createElement(
+          'div',
+          { className: 'hover-text' },
+          this.state.hoverText
+        ) : null
       )
     );
   }
@@ -30670,7 +30696,7 @@ var MajorList = React.createClass({
       $('.resume-title, #category-selector').animate({
         opacity: 1
       }, {
-        duration: 400,
+        duration: 200,
         queue: false,
         complete: function () {
           var _this2 = this;
@@ -30852,16 +30878,16 @@ var ContactItem = require('./ContactItem');
 
 var styles = {
   image: {
-    borderRadius: 150
+    borderRadius: 100
   },
   imageContainer: {
-    marginTop: 10,
+    marginTop: 20,
     padding: 2,
     border: '1px solid gray',
-    borderRadius: 120,
+    borderRadius: 100,
     boxShadow: '0 0 3px black',
-    width: 120,
-    height: 120
+    width: 100,
+    height: 100
   },
   contactLine: {
     marginLeft: 10
@@ -30871,8 +30897,7 @@ var styles = {
   },
   contactInfoContainer: {
     textAlign: 'center',
-    width: 220,
-    marginTop: 15
+    marginTop: 20
   },
   personalInfo: {
     backgroundColor: 'white',
@@ -30915,26 +30940,25 @@ var contactItems = [{
   id: 'github-item',
   label: 'Github',
   icon: 'github',
-  text: 'kyh8',
-  link: 'https://github.com/kyh8'
+  link: 'https://github.com/kyh8',
+  hoverText: 'kyh8'
 }, {
   id: 'linkedin-item',
   label: 'LinkedIn',
   icon: 'linkedin',
-  text: 'Kevin He',
   link: 'https://www.linkedin.com/in/kevin-he-47074b105?trk=nav_responsive_tab_profile_pic'
 }, {
   id: 'facebook-item',
   label: 'Facebook',
   icon: 'facebook-official',
-  text: 'facebook.com',
-  link: 'https://www.facebook.com/kevin.he314'
+  link: 'https://www.facebook.com/kevin.he314',
+  hoverText: 'kevin.he314'
 }, {
   id: 'email-item',
   label: 'Email',
   icon: 'envelope',
-  text: 'kyh8@duke.edu',
-  link: 'mailto:kyh8@duke.edu'
+  link: 'mailto:kyh8@duke.edu',
+  hoverText: 'kyh8@duke.edu'
 }];
 
 var skills = [{
@@ -31284,7 +31308,7 @@ var NameTag = React.createClass({
                         'Hi, I\'m ',
                         React.createElement(
                           'span',
-                          { style: { color: '#8AACB8' } },
+                          { style: { fontSize: 20 } },
                           'Kevin'
                         ),
                         '. I like to design user interfaces and build impactful software. I am passionate about creating things that will improve people\'s lives, and doing so with code. When I\'m not programming, I like to play League of Legends, browse reddit, and watch movies.'
@@ -31413,7 +31437,7 @@ var NameTag = React.createClass({
                     React.createElement(
                       'div',
                       { style: styles.imageContainer },
-                      React.createElement('img', { className: 'unselectable', src: "src/assets/profpic.jpg", width: 120, height: 120, style: styles.image })
+                      React.createElement('img', { className: 'unselectable', src: "src/assets/profpic.jpg", width: 100, height: 100, style: styles.image })
                     ),
                     React.createElement(
                       'div',

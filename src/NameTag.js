@@ -11,16 +11,16 @@ var ContactItem = require('./ContactItem');
 
 var styles = {
   image: {
-    borderRadius: 150,
+    borderRadius: 100,
   },
   imageContainer: {
-    marginTop: 10,
+    marginTop: 20,
     padding: 2,
     border:'1px solid gray',
-    borderRadius: 120,
+    borderRadius: 100,
     boxShadow: '0 0 3px black',
-    width: 120,
-    height: 120
+    width: 100,
+    height: 100
   },
   contactLine: {
     marginLeft: 10,
@@ -30,8 +30,7 @@ var styles = {
   },
   contactInfoContainer: {
     textAlign:'center',
-    width: 220,
-    marginTop: 15,
+    marginTop: 20,
   },
   personalInfo: {
     backgroundColor: 'white',
@@ -79,14 +78,13 @@ var contactItems = [
     id: 'github-item',
     label: 'Github',
     icon: 'github',
-    text: 'kyh8',
-    link: 'https://github.com/kyh8'
+    link: 'https://github.com/kyh8',
+    hoverText: 'kyh8',
   },
   {
     id: 'linkedin-item',
     label: 'LinkedIn',
     icon: 'linkedin',
-    text: 'Kevin He',
     link:
       'https://www.linkedin.com/in/kevin-he-47074b105?trk=nav_responsive_tab_profile_pic'
   },
@@ -94,17 +92,17 @@ var contactItems = [
     id: 'facebook-item',
     label: 'Facebook',
     icon: 'facebook-official',
-    text: 'facebook.com',
     link:
-      'https://www.facebook.com/kevin.he314'
+      'https://www.facebook.com/kevin.he314',
+    hoverText: 'kevin.he314'
   },
   {
     id: 'email-item',
     label: 'Email',
     icon: 'envelope',
-    text: 'kyh8@duke.edu',
     link:
-      'mailto:kyh8@duke.edu'
+      'mailto:kyh8@duke.edu',
+    hoverText: 'kyh8@duke.edu'
   },
 ];
 
@@ -426,7 +424,7 @@ var NameTag = React.createClass({
                         </div>
                         <div style={{border: '1px solid black', width: 302, borderRadius:10, padding: 2, marginTop: 10}}>
                           <div className="blurb">
-                            Hi, I&#39;m <span style={{color: '#8AACB8'}}>Kevin</span>.
+                            Hi, I&#39;m <span style={{fontSize: 20}}>Kevin</span>.
                             I like to design user interfaces and build impactful software.
                             I am passionate about creating things that will improve people&#39;s lives,
                             and doing so with code. When I&#39;m not programming, I like
@@ -542,7 +540,7 @@ var NameTag = React.createClass({
                           <span>Kevin He</span>
                         </div>
                         <div style={styles.imageContainer}>
-                          <img className="unselectable" src={"src/assets/profpic.jpg"} width={120} height={120} style={styles.image}/>
+                          <img className="unselectable" src={"src/assets/profpic.jpg"} width={100} height={100} style={styles.image}/>
                         </div>
                         <div style={styles.contactInfoContainer}>
                           {this.renderContactItems()}

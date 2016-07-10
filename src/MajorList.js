@@ -196,7 +196,7 @@ var MajorList = React.createClass({
       $('.resume-title, #category-selector').animate({
         opacity: 1,
       }, {
-        duration: 400,
+        duration: 200,
         queue: false,
         complete: (function() {
           var details = document.getElementById('detail-view');

@@ -113,6 +113,15 @@ body {
       rgba(0, 0, 0, 0.75),
       rgba(0, 0, 0, 0));
 }
+.hover-text {
+  position: absolute;
+  padding: 5px;
+  color: black;
+  width: 80px;
+  top: 40px;
+  left: -20px;
+  font-size: 10px;
+}
 .contact-info {
   width: 370px;
   height: 300px;
@@ -123,13 +132,15 @@ body {
 }
 .contact-icon {
   text-align: center;
-  width: 40px;
+  width: 50px;
   display: inline-block;
 }
 .contact-item {
   display: inline-block;
-  margin-right: 10px;
-  font-size: 32px;
+  margin-right: 20px;
+  font-size: 40px;
+  position: relative;
+  width: 50px;
 }
 .contact-item:last-child {
   margin-right: 0;
