@@ -368,16 +368,8 @@ body {
 .resume-icon .fa {
   margin-top: 15px;
 }
-.resume-icon.coursework {
-  background-color: #8aacb8;
-}
-.resume-icon.projects {
-  background-color: #E6DD93;
-}
-.resume-icon.work {
-  background-color: #927B51;
-}
-.resume-category-wrapper {
+.resume-category-wrapper,
+.resume-category-header {
   width: 250px;
   height: 60px;
   box-shadow: 0 0 2px black;
@@ -435,8 +427,8 @@ body {
   -o-transition: all 0.4s ease;
   -ms-transition: all 0.4s ease;
 }
-.hide-hover-preview {
-  left: 110px;
+.animate-left {
+  left: 110px !important;
   transition: all 0.4s ease;
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
@@ -452,6 +444,14 @@ body {
   -ms-transition: all 0.4s ease;
 }
 .animate-pin {
+  transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+}
+.animate-unpin {
+  transform: translateX(70px);
   transition: all 0.4s ease;
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
