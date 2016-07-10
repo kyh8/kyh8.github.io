@@ -173,15 +173,15 @@ body {
   padding: 10px;
 }
 .help-text {
-  font-size: 10px;
+  font-size: 14px;
   position: relative;
-  bottom: -60px;
+  bottom: -57px;
   color: white;
   cursor: pointer;
   width: 80px;
 }
 .help-text.opened {
-  bottom: -10px;
+  bottom: -8px;
   color: black;
 }
 .help-text.resume {
