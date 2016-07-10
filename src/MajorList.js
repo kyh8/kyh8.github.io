@@ -143,7 +143,7 @@ var resumeCategories = {
               },
               {
                 name: 'HTML',
-                icon: 'HTML',
+                icon: 'html',
               },
               {
                 name: 'CSS',

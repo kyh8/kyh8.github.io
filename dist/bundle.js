@@ -30609,7 +30609,7 @@ var resumeCategories = {
           icon: 'javascript'
         }, {
           name: 'HTML',
-          icon: 'HTML'
+          icon: 'html'
         }, {
           name: 'CSS',
           icon: 'css'
