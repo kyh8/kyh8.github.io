@@ -28,13 +28,146 @@ var resumeCategories = {
         name: 'coursework',
         displayName: 'Coursework',
         icon: 'graduation-cap',
-        color: '#8aacb8'
+        color: '#8aacb8',
+        details: [
+          {
+            header: 'Project-Based',
+            icon: 'code-fork',
+            items: [
+              'Software Design & Implementation',
+              'Operating Systems',
+              'Artificial Intelligence',
+              'Computer Architecture'
+            ]
+          },
+          {
+            header: 'Theory',
+            icon: 'lightbulb-o',
+            items: [
+              'Design & Analysis of Algorithms',
+              'Discrete Math for Computer Science',
+              'Algorithms & Data Structures'
+            ]
+          }
+        ],
       },
       {
         name: 'projects',
         displayName: 'Projects',
         icon: 'folder-open',
-        color: '#E6DD93'
+        color: '#E6DD93',
+        details: [
+          {
+            title: 'TabDuke',
+            navIcon: 'dashboard',
+            shortDescription: 'An informational new-tab dashboard for Duke students.',
+            technologies: [
+              {
+                name: 'Javascript',
+                icon: 'javascript'
+              },
+              {
+                name: 'JQuery',
+                icon: 'jquery'
+              },
+              {
+                name: 'HTML',
+                icon: 'html'
+              },
+              {
+                name: 'CSS',
+                icon: 'css'
+              },
+              {
+                name: 'RactiveJS',
+                icon: 'ractive'
+              },
+            ],
+            longDescription:
+              'Designed to deliver easy, at-a-glance information with beautiful ' +
+              'image backgrounds, TabDuke has quickly accumulated a sizeable user base ' +
+              'at Duke of about 1,200 weekly users. Features include a dynamically ' +
+              'updated bus monitor powered by TransLoc, a restaurant status indicator, ' +
+              'and a menu of customizable favorite links.',
+            links: [
+              {
+                icon: 'chromewebstore',
+                link: 'https://chrome.google.com/webstore/detail/tabduke/pobomngaadhipehokfdbllgemdpgdeop?hl=en-US'
+              },
+              {
+                icon: 'github',
+                link: 'https://github.com/kyh8/tabduke'
+              },
+            ],
+            linksDescription: 'Try it out or view the source code!'
+          },
+          {
+            title: 'HackerSync',
+            navIcon: 'hacker-news',
+            shortDescription: 'A cross-platform Hacker News reader client.',
+            technologies: [
+              {
+                name: 'Javascript',
+                icon: 'javascript'
+              },
+              {
+                name: 'React Native',
+                icon: 'react-native',
+              },
+              {
+                name: 'Firebase',
+                icon: 'firebase'
+              }
+            ],
+            longDescription:
+              'This is a project that I\'m working on with Alex Dao to fill the need ' +
+              'for a prettier, more user-friendly Hacker News app than the other ones in the app store. ' +
+              'Built on React Native, HackerSync is currently more of a leisurely experiment and exploration ' +
+              'into the React Native framework than an actual project. Stay tuned to see where it goes from here!',
+            links: [
+              {
+                icon: 'github',
+                link: 'https://github.com/hackersync/HackerSync'
+              },
+            ],
+            linksDescription: 'View the source code!'
+          },
+          {
+            title: 'Indivisible',
+            navIcon: 'gamepad',
+            shortDescription: 'A casual side-scroller game with numbers.',
+            technologies: [
+              {
+                name: 'Javascript',
+                icon: 'javascript'
+              },
+              {
+                name: 'HTML',
+                icon: 'HTML',
+              },
+              {
+                name: 'CSS',
+                icon: 'css'
+              }
+            ],
+            longDescription:
+              'Indivisible is a game I built on a whim. It could currently use more work ' +
+              'with difficulty tuning, but I think its premise is an interesting concept. ' +
+              'Play it and feel free to give me feedback on where it should go from here!',
+            links: [
+              {
+                fa: true,
+                icon: 'play-circle',
+                link: 'http://kevinyhe.com/indivisible/'
+              },
+              {
+                icon: 'github',
+                link: 'https://github.com/kyh8/indivisible'
+              },
+            ],
+            linksDescription: 'Try it out or view the source code!'
+          }
+        ],
       },
       {
         name: 'work',
@@ -57,6 +190,8 @@ var MajorList = React.createClass({
       pinned: false,
       pinnedCategory: null,
       resume: null,
+      navHelp: null,
+      techLabel: null,
     };
   },
   componentDidMount: function() {
@@ -134,6 +269,11 @@ var MajorList = React.createClass({
     var categories = resumeCategories[this.state.resume].categories.map(category => {
       return category.name;
     });
+    if (selectedCategory === 'projects') {
+      this.setState({
+        sectionSelected: resumeCategories[this.state.resume].categories[categories.indexOf('projects')].details[0],
+      });
+    }
 
     this.setState({
       animating: true,
@@ -298,59 +438,167 @@ var MajorList = React.createClass({
     });
     return categoryElements;
   },
+  renderCoursework: function() {
+    var details = this.state.pinnedCategory.details;
+    var elements = [];
+    details.forEach(detail => {
+      var element = (
+        <div key={detail.header}>
+          <div className='detail-header'>
+            <div>
+              <i className={"fa fa-" + detail.icon} aria-hidden="true"></i>
+              <span>  {detail.header}</span>
+            </div>
+            <hr className="h-divider" />
+          </div>
+          <div className='detail-item-container'>
+            {detail.items.map(function(item) {
+              return (
+                <div key={item} className='detail-item'>
+                  {item}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+      elements.push(element);
+    });
+    return elements;
+  },
+  scrollNav: function(section) {
+    console.log('section', section);
+    this.setState({
+      sectionSelected: section,
+    });
+  },
+  showTechLabel: function(label) {
+    this.setState({
+      techLabel: label,
+    });
+  },
+  hideTechLabel: function() {
+    this.setState({
+      techLabel: null,
+    });
+  },
+  renderProjectSection: function(section) {
+    var details = this.state.pinnedCategory.details;
+    var section = this.state.sectionSelected;
+    return (
+      <div className='project-section'>
+        <div className='project-title'>{section.title}</div>
+        <div className='project-subtitle'>
+          {section.shortDescription}
+        </div>
+        <div className='project-technologies'>
+          <div className='project-technology-title'>
+            Built on:
+          </div>
+          <div className='project-technology-container'>
+            {
+              section.technologies.map((function(tech) {
+                return (
+                  <div key={tech.name + '-tech'} className='project-technology'>
+                    <img
+                      className='project-technology-icon'
+                      src={'src/assets/' + tech.icon + '-logo.png'}
+                      onMouseEnter={this.showTechLabel.bind(null, tech.name)}
+                      onMouseLeave={this.hideTechLabel}/>
+                    {
+                      this.state.techLabel === tech.name ?
+                      <div className='project-technology-label'>
+                        {tech.name}
+                      </div>
+                      : null
+                    }
+                  </div>
+                );
+              }).bind(this))
+            }
+          </div>
+        </div>
+        <div className='project-description'>{section.longDescription}</div>
+        <div className='project-links'>
+          {
+            section.links.map(function(link) {
+              return (
+                <div key={link.icon + '-link'} className='project-link'>
+                  <a href={link.link}>
+                    {
+                      link.fa === true
+                      ? <div style={{position: 'relative', bottom: 3}}><i className={"project-link-icon fa fa-" + link.icon} aria-hidden="true"></i></div>
+                      : <img className='project-link-icon' src={'src/assets/' + link.icon + '.png'} />
+                    }
+                  </a>
+                </div>
+              );
+            })
+          }
+          <div className='project-link-label'>
+            {section.linksDescription}
+          </div>
+        </div>
+      </div>
+    );
+  },
+  showNavHelp: function(section) {
+    this.setState({
+      navHelp: section
+    });
+  },
+  hideNavHelp: function(section) {
+    this.setState({
+      navHelp: null
+    });
+  },
+  renderNav: function() {
+    var details = this.state.pinnedCategory.details;
+    var elements = [];
+    details.forEach(detail => {
+      var element = (
+        <div
+          key={detail.title + '-nav-button'}
+          className={
+            this.state.sectionSelected === detail
+            ? 'nav-button selected'
+            : 'nav-button'}
+          onClick={this.scrollNav.bind(this, detail)}
+          onMouseEnter={this.showNavHelp.bind(this, detail)}
+          onMouseLeave={this.hideNavHelp.bind(this, detail)}>
+          <div className="nav-button-icon">
+            <i className={"fa fa-" + detail.navIcon} aria-hidden="true"></i>
+          </div>
+          {
+            this.state.navHelp === detail
+            ? (<div className='nav-button-help'>
+                {detail.title}
+              </div>)
+            : null
+          }
+        </div>
+      );
+      elements.push(element);
+    });
+    return elements;
+  },
   renderDetails: function() {
-    console.log(this.state.pinnedCategory.displayName);
     switch (this.state.pinnedCategory.name) {
       case 'coursework':
         return (
           <div className='coursework-list'>
-            <div>
-              <div className='detail-header'>
-                <div>
-                  <i className="fa fa-code-fork" aria-hidden="true"></i>
-                  <span>  Project-Based</span>
-                </div>
-                <hr className="h-divider" />
-              </div>
-              <div className='detail-item-container'>
-                <div className='detail-item'>
-                  Software Design & Implementation
-                </div>
-                <div className='detail-item'>
-                  Computer Architecture
-                </div>
-                <div className='detail-item'>
-                  Operating Systems
-                </div>
-                <div className='detail-item'>
-                  Artificial Intelligence
-                </div>
-              </div>
-              <div className='detail-header'>
-                <div>
-                  <i className="fa fa-lightbulb-o" aria-hidden="true"></i>
-                  <span>  Theory</span>
-                </div>
-                <hr className="h-divider" />
-              </div>
-              <div className='detail-item-container'>
-                <div className='detail-item'>
-                  Design & Analysis of Algorithms
-                </div>
-                <div className='detail-item'>
-                  Discrete Math for Computer Science
-                </div>
-                <div className='detail-item'>
-                  Algorithms & Data Structures
-                </div>
-              </div>
-            </div>
+            {this.renderCoursework()}
           </div>
         );
       case 'projects':
         return (
           <div>
-            projects
+            <div id='projects-list' className='projects-list'>
+              {this.renderProjectSection()}
+            </div>
+            <div id="nav-buttons">
+              {this.renderNav()}
+            </div>
           </div>
         );
       case 'work':

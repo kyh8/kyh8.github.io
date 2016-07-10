@@ -30536,12 +30536,95 @@ var resumeCategories = {
       name: 'coursework',
       displayName: 'Coursework',
       icon: 'graduation-cap',
-      color: '#8aacb8'
+      color: '#8aacb8',
+      details: [{
+        header: 'Project-Based',
+        icon: 'code-fork',
+        items: ['Software Design & Implementation', 'Operating Systems', 'Artificial Intelligence', 'Computer Architecture']
+      }, {
+        header: 'Theory',
+        icon: 'lightbulb-o',
+        items: ['Design & Analysis of Algorithms', 'Discrete Math for Computer Science', 'Algorithms & Data Structures']
+      }]
     }, {
       name: 'projects',
       displayName: 'Projects',
       icon: 'folder-open',
-      color: '#E6DD93'
+      color: '#E6DD93',
+      details: [{
+        title: 'TabDuke',
+        navIcon: 'dashboard',
+        shortDescription: 'An informational new-tab dashboard for Duke students.',
+        technologies: [{
+          name: 'Javascript',
+          icon: 'javascript'
+        }, {
+          name: 'JQuery',
+          icon: 'jquery'
+        }, {
+          name: 'HTML',
+          icon: 'html'
+        }, {
+          name: 'CSS',
+          icon: 'css'
+        }, {
+          name: 'RactiveJS',
+          icon: 'ractive'
+        }],
+        longDescription: 'Designed to deliver easy, at-a-glance information with beautiful ' + 'image backgrounds, TabDuke has quickly accumulated a sizeable user base ' + 'at Duke of about 1,200 weekly users. Features include a dynamically ' + 'updated bus monitor powered by TransLoc, a restaurant status indicator, ' + 'and a menu of customizable favorite links.',
+        links: [{
+          icon: 'chromewebstore',
+          link: 'https://chrome.google.com/webstore/detail/tabduke/pobomngaadhipehokfdbllgemdpgdeop?hl=en-US'
+        }, {
+          icon: 'github',
+          link: 'https://github.com/kyh8/tabduke'
+        }],
+        linksDescription: 'Try it out or view the source code!'
+      }, {
+        title: 'HackerSync',
+        navIcon: 'hacker-news',
+        shortDescription: 'A cross-platform Hacker News reader client.',
+        technologies: [{
+          name: 'Javascript',
+          icon: 'javascript'
+        }, {
+          name: 'React Native',
+          icon: 'react-native'
+        }, {
+          name: 'Firebase',
+          icon: 'firebase'
+        }],
+        longDescription: 'This is a project that I\'m working on with Alex Dao to fill the need ' + 'for a prettier, more user-friendly Hacker News app than the other ones in the app store. ' + 'Built on React Native, HackerSync is currently more of a leisurely experiment and exploration ' + 'into the React Native framework than an actual project. Stay tuned to see where it goes from here!',
+        links: [{
+          icon: 'github',
+          link: 'https://github.com/hackersync/HackerSync'
+        }],
+        linksDescription: 'View the source code!'
+      }, {
+        title: 'Indivisible',
+        navIcon: 'gamepad',
+        shortDescription: 'A casual side-scroller game with numbers.',
+        technologies: [{
+          name: 'Javascript',
+          icon: 'javascript'
+        }, {
+          name: 'HTML',
+          icon: 'HTML'
+        }, {
+          name: 'CSS',
+          icon: 'css'
+        }],
+        longDescription: 'Indivisible is a game I built on a whim. It could currently use more work ' + 'with difficulty tuning, but I think its premise is an interesting concept. ' + 'Play it and feel free to give me feedback on where it should go from here!',
+        links: [{
+          fa: true,
+          icon: 'play-circle',
+          link: 'http://kevinyhe.com/indivisible/'
+        }, {
+          icon: 'github',
+          link: 'https://github.com/kyh8/indivisible'
+        }],
+        linksDescription: 'Try it out or view the source code!'
+      }]
     }, {
       name: 'work',
       displayName: 'Experience',
@@ -30561,7 +30644,9 @@ var MajorList = React.createClass({
       animating: false,
       pinned: false,
       pinnedCategory: null,
-      resume: null
+      resume: null,
+      navHelp: null,
+      techLabel: null
     };
   },
   componentDidMount: function componentDidMount() {
@@ -30639,6 +30724,11 @@ var MajorList = React.createClass({
     var categories = resumeCategories[this.state.resume].categories.map(function (category) {
       return category.name;
     });
+    if (selectedCategory === 'projects') {
+      this.setState({
+        sectionSelected: resumeCategories[this.state.resume].categories[categories.indexOf('projects')].details[0]
+      });
+    }
 
     this.setState({
       animating: true
@@ -30823,96 +30913,198 @@ var MajorList = React.createClass({
     });
     return categoryElements;
   },
+  renderCoursework: function renderCoursework() {
+    var details = this.state.pinnedCategory.details;
+    var elements = [];
+    details.forEach(function (detail) {
+      var element = React.createElement(
+        'div',
+        { key: detail.header },
+        React.createElement(
+          'div',
+          { className: 'detail-header' },
+          React.createElement(
+            'div',
+            null,
+            React.createElement('i', { className: "fa fa-" + detail.icon, 'aria-hidden': 'true' }),
+            React.createElement(
+              'span',
+              null,
+              '  ',
+              detail.header
+            )
+          ),
+          React.createElement('hr', { className: 'h-divider' })
+        ),
+        React.createElement(
+          'div',
+          { className: 'detail-item-container' },
+          detail.items.map(function (item) {
+            return React.createElement(
+              'div',
+              { key: item, className: 'detail-item' },
+              item
+            );
+          })
+        )
+      );
+      elements.push(element);
+    });
+    return elements;
+  },
+  scrollNav: function scrollNav(section) {
+    console.log('section', section);
+    this.setState({
+      sectionSelected: section
+    });
+  },
+  showTechLabel: function showTechLabel(label) {
+    this.setState({
+      techLabel: label
+    });
+  },
+  hideTechLabel: function hideTechLabel() {
+    this.setState({
+      techLabel: null
+    });
+  },
+  renderProjectSection: function renderProjectSection(section) {
+    var details = this.state.pinnedCategory.details;
+    var section = this.state.sectionSelected;
+    return React.createElement(
+      'div',
+      { className: 'project-section' },
+      React.createElement(
+        'div',
+        { className: 'project-title' },
+        section.title
+      ),
+      React.createElement(
+        'div',
+        { className: 'project-subtitle' },
+        section.shortDescription
+      ),
+      React.createElement(
+        'div',
+        { className: 'project-technologies' },
+        React.createElement(
+          'div',
+          { className: 'project-technology-title' },
+          'Built on:'
+        ),
+        React.createElement(
+          'div',
+          { className: 'project-technology-container' },
+          section.technologies.map(function (tech) {
+            return React.createElement(
+              'div',
+              { key: tech.name + '-tech', className: 'project-technology' },
+              React.createElement('img', {
+                className: 'project-technology-icon',
+                src: 'src/assets/' + tech.icon + '-logo.png',
+                onMouseEnter: this.showTechLabel.bind(null, tech.name),
+                onMouseLeave: this.hideTechLabel }),
+              this.state.techLabel === tech.name ? React.createElement(
+                'div',
+                { className: 'project-technology-label' },
+                tech.name
+              ) : null
+            );
+          }.bind(this))
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'project-description' },
+        section.longDescription
+      ),
+      React.createElement(
+        'div',
+        { className: 'project-links' },
+        section.links.map(function (link) {
+          return React.createElement(
+            'div',
+            { key: link.icon + '-link', className: 'project-link' },
+            React.createElement(
+              'a',
+              { href: link.link },
+              link.fa === true ? React.createElement(
+                'div',
+                { style: { position: 'relative', bottom: 3 } },
+                React.createElement('i', { className: "project-link-icon fa fa-" + link.icon, 'aria-hidden': 'true' })
+              ) : React.createElement('img', { className: 'project-link-icon', src: 'src/assets/' + link.icon + '.png' })
+            )
+          );
+        }),
+        React.createElement(
+          'div',
+          { className: 'project-link-label' },
+          section.linksDescription
+        )
+      )
+    );
+  },
+  showNavHelp: function showNavHelp(section) {
+    this.setState({
+      navHelp: section
+    });
+  },
+  hideNavHelp: function hideNavHelp(section) {
+    this.setState({
+      navHelp: null
+    });
+  },
+  renderNav: function renderNav() {
+    var _this6 = this;
+
+    var details = this.state.pinnedCategory.details;
+    var elements = [];
+    details.forEach(function (detail) {
+      var element = React.createElement(
+        'div',
+        {
+          key: detail.title + '-nav-button',
+          className: _this6.state.sectionSelected === detail ? 'nav-button selected' : 'nav-button',
+          onClick: _this6.scrollNav.bind(_this6, detail),
+          onMouseEnter: _this6.showNavHelp.bind(_this6, detail),
+          onMouseLeave: _this6.hideNavHelp.bind(_this6, detail) },
+        React.createElement(
+          'div',
+          { className: 'nav-button-icon' },
+          React.createElement('i', { className: "fa fa-" + detail.navIcon, 'aria-hidden': 'true' })
+        ),
+        _this6.state.navHelp === detail ? React.createElement(
+          'div',
+          { className: 'nav-button-help' },
+          detail.title
+        ) : null
+      );
+      elements.push(element);
+    });
+    return elements;
+  },
   renderDetails: function renderDetails() {
-    console.log(this.state.pinnedCategory.displayName);
     switch (this.state.pinnedCategory.name) {
       case 'coursework':
         return React.createElement(
           'div',
           { className: 'coursework-list' },
-          React.createElement(
-            'div',
-            null,
-            React.createElement(
-              'div',
-              { className: 'detail-header' },
-              React.createElement(
-                'div',
-                null,
-                React.createElement('i', { className: 'fa fa-code-fork', 'aria-hidden': 'true' }),
-                React.createElement(
-                  'span',
-                  null,
-                  '  Project-Based'
-                )
-              ),
-              React.createElement('hr', { className: 'h-divider' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'detail-item-container' },
-              React.createElement(
-                'div',
-                { className: 'detail-item' },
-                'Software Design & Implementation'
-              ),
-              React.createElement(
-                'div',
-                { className: 'detail-item' },
-                'Computer Architecture'
-              ),
-              React.createElement(
-                'div',
-                { className: 'detail-item' },
-                'Operating Systems'
-              ),
-              React.createElement(
-                'div',
-                { className: 'detail-item' },
-                'Artificial Intelligence'
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'detail-header' },
-              React.createElement(
-                'div',
-                null,
-                React.createElement('i', { className: 'fa fa-lightbulb-o', 'aria-hidden': 'true' }),
-                React.createElement(
-                  'span',
-                  null,
-                  '  Theory'
-                )
-              ),
-              React.createElement('hr', { className: 'h-divider' })
-            ),
-            React.createElement(
-              'div',
-              { className: 'detail-item-container' },
-              React.createElement(
-                'div',
-                { className: 'detail-item' },
-                'Design & Analysis of Algorithms'
-              ),
-              React.createElement(
-                'div',
-                { className: 'detail-item' },
-                'Discrete Math for Computer Science'
-              ),
-              React.createElement(
-                'div',
-                { className: 'detail-item' },
-                'Algorithms & Data Structures'
-              )
-            )
-          )
+          this.renderCoursework()
         );
       case 'projects':
         return React.createElement(
           'div',
           null,
-          'projects'
+          React.createElement(
+            'div',
+            { id: 'projects-list', className: 'projects-list' },
+            this.renderProjectSection()
+          ),
+          React.createElement(
+            'div',
+            { id: 'nav-buttons' },
+            this.renderNav()
+          )
         );
       case 'work':
         return React.createElement(
@@ -31116,6 +31308,12 @@ var skills = [{
   description: 'A Javascript framework',
   level: 'proficient'
 }, {
+  name: 'Ractive JS',
+  icon: 'ractive',
+  description: 'A Javascript framework',
+  level: 'expert',
+  experience: true
+}, {
   name: 'd3',
   icon: 'd3',
   description: 'A Javascript framework',
@@ -31166,6 +31364,9 @@ var skills = [{
   level: 'expert',
   experience: true
 }];
+
+var intro = "Hi, I'm Kevin.";
+var blurb = "I like to design user interfaces and build impactful software. " + "I'm passionate about creating things with code that will improve people's lives. " + "When I'm not programming, I like to browse reddit, " + "play League of Legends, and watch movies.";
 
 var NameTag = React.createClass({
   displayName: 'NameTag',
@@ -31429,12 +31630,12 @@ var NameTag = React.createClass({
                       React.createElement(
                         'div',
                         { style: { width: 300, textAlign: 'center', fontSize: 16, marginBottom: 5 } },
-                        'Hi, I\'m Kevin.'
+                        intro
                       ),
                       React.createElement(
                         'div',
                         null,
-                        'I like to design user interfaces and build impactful software. I\'m passionate about creating things with code that will improve people\'s lives. When I\'m not programming, I like to play League of Legends, browse reddit, and watch movies.'
+                        blurb
                       )
                     )
                   );

@@ -550,3 +550,141 @@ body {
   width: 200px;
   margin-top: 5px;
 }
+.projects-list {
+  height: 400px;
+  width: 500px;
+  left: 50px;
+  position: relative;
+}
+.project-section {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  margin-top: 10px;
+}
+.project-title {
+  font-size: 42px;
+}
+.project-subtitle {
+  font-size: 14px;
+  margin-top: 5px;
+}
+.project-description {
+  font-size: 14px;
+  line-height: 18px;
+  width: 400px;
+  text-align: left;
+  margin-top: 20px;
+}
+.project-technologies {
+  margin-top: 20px;
+  border-radius: 20px;
+  border: 1px solid white;
+  box-shadow: 0 0 2px black;
+  width: 300px;
+  padding: 10px;
+  padding-bottom: 20px;
+}
+.project-technology-container {
+  margin-top: 5px;
+}
+.project-technology-title {
+  font-size: 24px;
+}
+.project-technology-label {
+  font-size: 12px;
+  position: absolute;
+  bottom: -20px;
+  left: -30px;
+  width: 100px;
+}
+.project-technology {
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  border: 1px solid white;
+  box-shadow: 0 0 2px black;
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+}
+.project-technology:last-child {
+  margin-right: 0;
+}
+.project-technology:hover {
+  box-shadow: 0 0 4px black;
+}
+.project-technology-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+}
+.project-links {
+  position: absolute;
+  bottom: 0;
+  width: 200px;
+  left: 150px;
+}
+.project-link {
+  display:inline-block;
+  margin-right: 10px;
+  font-size: 18px;
+}
+.project-link:last-child {
+  margin-right: 0;
+}
+.project-link-label {
+  font-size: 10px;
+}
+.project-link-icon {
+  width: 20px;
+  height: 20px;
+}
+.project-link-icon.fa {
+  color: black;
+}
+#nav-buttons {
+  position: absolute;
+  top: 100px;
+  left: 10px;
+  z-index: 1;
+  width: 38px;
+}
+.nav-button {
+  box-shadow: 0 0 2px black;
+  background-color: black;
+  border: 1px solid white;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 10px;
+  margin-left: 3px;
+}
+.nav-button:first-child {
+  margin-top: 0;
+}
+.nav-button:hover {
+  box-shadow: 0 0 6px black;
+}
+.nav-button.selected {
+  border: 4px solid #9bc2cf;
+  margin-left: 0;
+}
+.nav-button-icon {
+  margin-top: 5px;
+  margin-left: 1px;
+}
+.nav-button-help {
+  font-size: 12px;
+  position: relative;
+  left: 40px;
+  bottom: 15px;
+  color: black;
+  cursor: default;
+}

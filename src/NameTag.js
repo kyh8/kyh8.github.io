@@ -160,6 +160,13 @@ var skills = [
     level:'proficient'
   },
   {
+    name:'Ractive JS',
+    icon:'ractive',
+    description:'A Javascript framework',
+    level:'expert',
+    experience: true,
+  },
+  {
     name:'d3',
     icon:'d3',
     description:'A Javascript framework',
@@ -219,6 +226,12 @@ var skills = [
     experience: true,
   },
 ];
+
+var intro = "Hi, I'm Kevin.";
+var blurb = "I like to design user interfaces and build impactful software. " +
+"I'm passionate about creating things with code that will improve people's lives. " +
+"When I'm not programming, I like to browse reddit, " +
+"play League of Legends, and watch movies."
 
 var NameTag = React.createClass({
   getInitialState: function() {
@@ -437,11 +450,12 @@ var NameTag = React.createClass({
                           <img className="unselectable" src={"src/assets/about-me.png"} width={80} height={80} style={styles.aboutMeImage}/>
                         </div>
                         <div className="blurb">
-                          <div style={{width: 300, textAlign: 'center', fontSize: 16, marginBottom: 5}}>Hi, I&#39;m Kevin.</div>
-                          <div>I like to design user interfaces and build impactful software.
-                          I&#39;m passionate about creating things with code that will improve people&#39;s lives.
-                          When I&#39;m not programming, I like to play League of Legends,
-                          browse reddit, and watch movies.</div>
+                          <div style={{width: 300, textAlign: 'center', fontSize: 16, marginBottom: 5}}>
+                            {intro}
+                          </div>
+                          <div>
+                            {blurb}
+                          </div>
                         </div>
                       </div>
                     );
