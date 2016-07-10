@@ -30843,7 +30843,16 @@ var MajorList = React.createClass({
           React.createElement(
             'div',
             { id: 'detail-view' },
-            this.state.pinnedCategory !== null ? this.renderPinnedHeader(this.state.pinnedCategory) : null
+            this.state.pinnedCategory !== null ? this.renderPinnedHeader(this.state.pinnedCategory) : null,
+            React.createElement(
+              'div',
+              { className: 'details-container' },
+              this.state.pinned == true ? React.createElement(
+                'div',
+                null,
+                this.state.pinnedCategory.displayName
+              ) : null
+            )
           )
         ),
         React.createElement(
@@ -31317,17 +31326,16 @@ var NameTag = React.createClass({
                     ),
                     React.createElement(
                       'div',
-                      { style: { border: '1px solid black', width: 302, borderRadius: 10, padding: 2, marginTop: 10 } },
+                      { className: 'blurb' },
                       React.createElement(
                         'div',
-                        { className: 'blurb' },
-                        'Hi, I\'m ',
-                        React.createElement(
-                          'span',
-                          { style: { fontSize: 16 } },
-                          'Kevin'
-                        ),
-                        '. I like to design user interfaces and build impactful software. I am passionate about creating things that will improve people\'s lives, and doing so with code. When I\'m not programming, I like to play League of Legends, browse reddit, and watch movies.'
+                        { style: { width: 300, textAlign: 'center', fontSize: 16, marginBottom: 5 } },
+                        'Hi, I\'m Kevin.'
+                      ),
+                      React.createElement(
+                        'div',
+                        null,
+                        'I like to design user interfaces and build impactful software. I\'m passionate about creating things with code that will improve people\'s lives. When I\'m not programming, I like to play League of Legends, browse reddit, and watch movies.'
                       )
                     )
                   );

@@ -309,6 +309,16 @@ var MajorList = React.createClass({
                 this.state.pinnedCategory !== null ?
                 this.renderPinnedHeader(this.state.pinnedCategory) : null
               }
+              <div className="details-container">
+              {
+                this.state.pinned == true
+                ?
+                (<div>
+                  {this.state.pinnedCategory.displayName}
+                </div>)
+                : null
+              }
+              </div>
             </div>
           </div>
           <div style={{position: 'absolute', display: 'flex', justifyContent: 'center', zIndex: 2, width: 600, top: 500}}>

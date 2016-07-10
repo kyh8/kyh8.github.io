@@ -436,14 +436,12 @@ var NameTag = React.createClass({
                         <div style={styles.aboutMeImageContainer}>
                           <img className="unselectable" src={"src/assets/about-me.png"} width={80} height={80} style={styles.aboutMeImage}/>
                         </div>
-                        <div style={{border: '1px solid black', width: 302, borderRadius:10, padding: 2, marginTop: 10}}>
-                          <div className="blurb">
-                            Hi, I&#39;m <span style={{fontSize: 16}}>Kevin</span>.
-                            I like to design user interfaces and build impactful software.
-                            I am passionate about creating things that will improve people&#39;s lives,
-                            and doing so with code. When I&#39;m not programming, I like
-                            to play League of Legends, browse reddit, and watch movies.
-                          </div>
+                        <div className="blurb">
+                          <div style={{width: 300, textAlign: 'center', fontSize: 16, marginBottom: 5}}>Hi, I&#39;m Kevin.</div>
+                          <div>I like to design user interfaces and build impactful software.
+                          I&#39;m passionate about creating things with code that will improve people&#39;s lives.
+                          When I&#39;m not programming, I like to play League of Legends,
+                          browse reddit, and watch movies.</div>
                         </div>
                       </div>
                     );
