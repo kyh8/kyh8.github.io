@@ -30629,7 +30629,18 @@ var resumeCategories = {
       name: 'work',
       displayName: 'Experience',
       icon: 'suitcase',
-      color: '#927B51'
+      color: '#927B51',
+      details: [{
+        title: 'Facebook',
+        companyName: 'Facebook',
+        jobTitle: 'Software Engineering Intern',
+        navIconText: 'FB'
+      }, {
+        title: 'Arris',
+        companyName: 'Arris Group, Inc.',
+        jobTitle: 'Software Engineering Intern',
+        navIconText: 'A'
+      }]
     }]
   },
   'Economics': {}
@@ -30670,6 +30681,22 @@ var MajorList = React.createClass({
   },
   showResume: function showResume(id) {
     $('#overlay').fadeIn(300);
+    var newState = {};
+    if (id != this.state.resume && this.state.pinnedCategory) {
+      var pinnedElement = document.getElementById('resume-category-wrapper-' + this.state.pinnedCategory.name);
+      if (pinnedElement != null) {
+        pinnedElement.style.opacity = 1;
+      }
+      var categorySelector = document.getElementById('category-selector');
+      categorySelector.style.opacity = 1;
+      var details = document.getElementById('detail-view');
+      details.style.zIndex = -1;
+      $('.resume-title').css('opacity', '1');
+      this.setState({
+        pinned: false,
+        pinnedCategory: null
+      });
+    }
     this.setState({
       resumeShown: true,
       resume: id
@@ -30692,12 +30719,7 @@ var MajorList = React.createClass({
       top: '-520px'
     }, {
       duration: 500,
-      easing: "easeInQuart",
-      complete: function () {
-        this.setState({
-          resume: null
-        });
-      }.bind(this)
+      easing: "easeInQuart"
     });
     $('#overlay').delay(500).fadeOut(300);
   },
@@ -30724,9 +30746,9 @@ var MajorList = React.createClass({
     var categories = resumeCategories[this.state.resume].categories.map(function (category) {
       return category.name;
     });
-    if (selectedCategory === 'projects') {
+    if (selectedCategory === 'projects' || selectedCategory === 'work') {
       this.setState({
-        sectionSelected: resumeCategories[this.state.resume].categories[categories.indexOf('projects')].details[0]
+        sectionSelected: resumeCategories[this.state.resume].categories[categories.indexOf(selectedCategory)].details[0]
       });
     }
 
@@ -30953,7 +30975,6 @@ var MajorList = React.createClass({
     return elements;
   },
   scrollNav: function scrollNav(section) {
-    console.log('section', section);
     this.setState({
       sectionSelected: section
     });
@@ -31044,6 +31065,24 @@ var MajorList = React.createClass({
       )
     );
   },
+  renderExperienceSection: function renderExperienceSection() {
+    var details = this.state.pinnedCategory.details;
+    var section = this.state.sectionSelected;
+    return React.createElement(
+      'div',
+      { className: 'experience-section' },
+      React.createElement(
+        'div',
+        { className: 'company-name' },
+        section.companyName
+      ),
+      React.createElement(
+        'div',
+        { className: 'job-title' },
+        section.jobTitle
+      )
+    );
+  },
   showNavHelp: function showNavHelp(section) {
     this.setState({
       navHelp: section
@@ -31071,7 +31110,7 @@ var MajorList = React.createClass({
         React.createElement(
           'div',
           { className: 'nav-button-icon' },
-          React.createElement('i', { className: "fa fa-" + detail.navIcon, 'aria-hidden': 'true' })
+          detail.navIconText !== undefined ? detail.navIconText : React.createElement('i', { className: "fa fa-" + detail.navIcon, 'aria-hidden': 'true' })
         ),
         _this6.state.navHelp === detail ? React.createElement(
           'div',
@@ -31097,12 +31136,12 @@ var MajorList = React.createClass({
           null,
           React.createElement(
             'div',
-            { id: 'projects-list', className: 'projects-list' },
+            { className: 'projects-list' },
             this.renderProjectSection()
           ),
           React.createElement(
             'div',
-            { id: 'nav-buttons' },
+            { className: 'nav-buttons' },
             this.renderNav()
           )
         );
@@ -31110,7 +31149,16 @@ var MajorList = React.createClass({
         return React.createElement(
           'div',
           null,
-          'work'
+          React.createElement(
+            'div',
+            { className: 'experience-list' },
+            this.renderExperienceSection()
+          ),
+          React.createElement(
+            'div',
+            { className: 'nav-buttons' },
+            this.renderNav()
+          )
         );
     }
   },
@@ -31133,7 +31181,11 @@ var MajorList = React.createClass({
           React.createElement(
             'div',
             { id: 'category-selector' },
-            this.renderCategoryList()
+            resumeCategories[this.state.resume] && resumeCategories[this.state.resume].categories !== undefined ? this.renderCategoryList() : React.createElement(
+              'div',
+              { className: 'coming-soon' },
+              'Coming Soon!'
+            )
           ),
           React.createElement(
             'div',
