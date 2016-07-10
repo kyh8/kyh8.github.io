@@ -56,6 +56,7 @@ var resumeCategories = {
         displayName: 'Projects',
         icon: 'folder-open',
         color: '#E6DD93',
+        techLabel: 'Built on',
         details: [
           {
             title: 'TabDuke',
@@ -174,18 +175,92 @@ var resumeCategories = {
         displayName: 'Experience',
         icon: 'suitcase',
         color: '#927B51',
+        techLabel: 'Worked with',
         details: [
           {
             title: 'Facebook',
             companyName: 'Facebook',
             jobTitle: 'Software Engineering Intern',
-            navIconText: 'FB'
+            navIconText: 'FB',
+            workDetails: [],
           },
           {
             title: 'Arris',
             companyName: 'Arris Group, Inc.',
             jobTitle: 'Software Engineering Intern',
-            navIconText: 'A'
+            navIconText: 'A',
+            technologies: [
+              {
+                name: 'Javascript',
+                icon: 'javascript'
+              },
+              {
+                name: 'JQuery',
+                icon: 'jquery'
+              },
+              {
+                name: 'HTML',
+                icon: 'html'
+              },
+              {
+                name: 'CSS',
+                icon: 'css'
+              },
+              {
+                name: 'RactiveJS',
+                icon: 'ractive'
+              },
+            ],
+            workDetails: [
+              {
+                key: 'background-info',
+                text:
+                  'At Arris, I worked on the AlarmCentral application - software that cable companies ' +
+                  'like Time Warner Cable used to detect and analyze service issues in their ' +
+                  'networks. Because my team was rebuilding this application from the ground up at the time, ' +
+                  'I was able to own several features in the process. Working primarily on the UI, I built ' +
+                  'their database-backed search typeahead interface as well as a visualization framework for ' +
+                  'historical topology data.'
+              }
+            ],
+          },
+          {
+            title: 'Duke University',
+            companyName: 'Jenkins Collaboratory',
+            jobTitle: 'Data Visualization Specialist',
+            navIconText: 'DU',
+            technologies: [
+              {
+                name: 'd3',
+                icon: 'd3'
+              },
+              {
+                name: 'Javascript',
+                icon: 'javascript'
+              },
+              {
+                name: 'JQuery',
+                icon: 'jquery'
+              },
+              {
+                name: 'HTML',
+                icon: 'html'
+              },
+              {
+                name: 'CSS',
+                icon: 'css'
+              },
+            ],
+            workDetails: [
+              {
+                key: 'background-info',
+                text:
+                  'At Jenkins Collaboratory, I spent several weeks learning d3.js and basic web development languages. ' +
+                  'The goal of the summer was to generate a handful of comprehensive, interactive data visualizations. ' +
+                  'It was here that I got my first exposure to Javascript, and it was here where my passion for developing ' +
+                  'user interfaces began.'
+              }
+            ],
           },
         ]
       }
@@ -506,7 +581,35 @@ var MajorList = React.createClass({
       techLabel: null,
     });
   },
-  renderProjectSection: function(section) {
+  renderTechnologiesList: function() {
+    var section = this.state.sectionSelected;
+    if (section.technologies === undefined) {
+      console.log('why doesn\'t it return here?');
+      return null;
+    }
+    var elements = [];
+    section.technologies.forEach(tech => {
+      var element = (
+        <div key={tech.name + '-tech'} className='project-technology'>
+          <img
+            className='project-technology-icon'
+            src={'src/assets/' + tech.icon + '-logo.png'}
+            onMouseEnter={this.showTechLabel.bind(null, tech.name)}
+            onMouseLeave={this.hideTechLabel}/>
+          {
+            this.state.techLabel === tech.name ?
+            <div className='project-technology-label'>
+              {tech.name}
+            </div>
+            : null
+          }
+        </div>
+      );
+      elements.push(element);
+    });
+    return elements;
+  },
+  renderProjectSection: function() {
     var details = this.state.pinnedCategory.details;
     var section = this.state.sectionSelected;
     return (
@@ -517,29 +620,10 @@ var MajorList = React.createClass({
         </div>
         <div className='project-technologies'>
           <div className='project-technology-title'>
-            Built on:
+            {this.state.pinnedCategory.techLabel}:
           </div>
           <div className='project-technology-container'>
-            {
-              section.technologies.map((function(tech) {
-                return (
-                  <div key={tech.name + '-tech'} className='project-technology'>
-                    <img
-                      className='project-technology-icon'
-                      src={'src/assets/' + tech.icon + '-logo.png'}
-                      onMouseEnter={this.showTechLabel.bind(null, tech.name)}
-                      onMouseLeave={this.hideTechLabel}/>
-                    {
-                      this.state.techLabel === tech.name ?
-                      <div className='project-technology-label'>
-                        {tech.name}
-                      </div>
-                      : null
-                    }
-                  </div>
-                );
-              }).bind(this))
-            }
+            {this.renderTechnologiesList()}
           </div>
         </div>
         <div className='project-description'>{section.longDescription}</div>
@@ -566,6 +650,29 @@ var MajorList = React.createClass({
       </div>
     );
   },
+  renderWorkDetails: function() {
+    var section = this.state.sectionSelected;
+    var details = section.workDetails;
+    if (details.length == 0) {
+      return (
+        <div className='in-progress'>In progress</div>
+      );
+    } else {
+      return (
+        <div>
+          {
+            details.map(function(detail) {
+              return (
+                <div key={detail.key} className='work-detail'>
+                  {detail.text}
+                </div>
+              );
+            })
+          }
+        </div>
+      );
+    }
+  },
   renderExperienceSection: function() {
     var details = this.state.pinnedCategory.details;
     var section = this.state.sectionSelected;
@@ -576,6 +683,21 @@ var MajorList = React.createClass({
         </div>
         <div className='job-title'>
           {section.jobTitle}
+        </div>
+        {
+          section.workDetails.length > 0 ? (
+            <div className='project-technologies'>
+              <div className='project-technology-title'>
+                {this.state.pinnedCategory.techLabel}:
+              </div>
+              <div className='project-technology-container'>
+                {this.renderTechnologiesList()}
+              </div>
+            </div>
+          ) : null
+        }
+        <div className='work-details'>
+          {this.renderWorkDetails()}
         </div>
       </div>
     );
@@ -668,7 +790,6 @@ var MajorList = React.createClass({
                 resumeCategories[this.state.resume] && resumeCategories[this.state.resume].categories !== undefined
                 ? this.renderCategoryList()
                 : (<div className='coming-soon'>Coming Soon!</div>)
-
               }
             </div>
             <div id="detail-view">

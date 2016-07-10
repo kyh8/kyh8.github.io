@@ -30551,6 +30551,7 @@ var resumeCategories = {
       displayName: 'Projects',
       icon: 'folder-open',
       color: '#E6DD93',
+      techLabel: 'Built on',
       details: [{
         title: 'TabDuke',
         navIcon: 'dashboard',
@@ -30630,16 +30631,63 @@ var resumeCategories = {
       displayName: 'Experience',
       icon: 'suitcase',
       color: '#927B51',
+      techLabel: 'Worked with',
       details: [{
         title: 'Facebook',
         companyName: 'Facebook',
         jobTitle: 'Software Engineering Intern',
-        navIconText: 'FB'
+        navIconText: 'FB',
+        workDetails: []
       }, {
         title: 'Arris',
         companyName: 'Arris Group, Inc.',
         jobTitle: 'Software Engineering Intern',
-        navIconText: 'A'
+        navIconText: 'A',
+        technologies: [{
+          name: 'Javascript',
+          icon: 'javascript'
+        }, {
+          name: 'JQuery',
+          icon: 'jquery'
+        }, {
+          name: 'HTML',
+          icon: 'html'
+        }, {
+          name: 'CSS',
+          icon: 'css'
+        }, {
+          name: 'RactiveJS',
+          icon: 'ractive'
+        }],
+        workDetails: [{
+          key: 'background-info',
+          text: 'At Arris, I worked on the AlarmCentral application - software that cable companies ' + 'like Time Warner Cable used to detect and analyze service issues in their ' + 'networks. Because my team was rebuilding this application from the ground up at the time, ' + 'I was able to own several features in the process. Working primarily on the UI, I built ' + 'their database-backed search typeahead interface as well as a visualization framework for ' + 'historical topology data.'
+        }]
+      }, {
+        title: 'Duke University',
+        companyName: 'Jenkins Collaboratory',
+        jobTitle: 'Data Visualization Specialist',
+        navIconText: 'DU',
+        technologies: [{
+          name: 'd3',
+          icon: 'd3'
+        }, {
+          name: 'Javascript',
+          icon: 'javascript'
+        }, {
+          name: 'JQuery',
+          icon: 'jquery'
+        }, {
+          name: 'HTML',
+          icon: 'html'
+        }, {
+          name: 'CSS',
+          icon: 'css'
+        }],
+        workDetails: [{
+          key: 'background-info',
+          text: 'At Jenkins Collaboratory, I spent several weeks learning d3.js and basic web development languages. ' + 'The goal of the summer was to generate a handful of comprehensive, interactive data visualizations. ' + 'It was here that I got my first exposure to Javascript, and it was here where my passion for developing ' + 'user interfaces began.'
+        }]
       }]
     }]
   },
@@ -30989,7 +31037,35 @@ var MajorList = React.createClass({
       techLabel: null
     });
   },
-  renderProjectSection: function renderProjectSection(section) {
+  renderTechnologiesList: function renderTechnologiesList() {
+    var _this6 = this;
+
+    var section = this.state.sectionSelected;
+    if (section.technologies === undefined) {
+      console.log('why doesn\'t it return here?');
+      return null;
+    }
+    var elements = [];
+    section.technologies.forEach(function (tech) {
+      var element = React.createElement(
+        'div',
+        { key: tech.name + '-tech', className: 'project-technology' },
+        React.createElement('img', {
+          className: 'project-technology-icon',
+          src: 'src/assets/' + tech.icon + '-logo.png',
+          onMouseEnter: _this6.showTechLabel.bind(null, tech.name),
+          onMouseLeave: _this6.hideTechLabel }),
+        _this6.state.techLabel === tech.name ? React.createElement(
+          'div',
+          { className: 'project-technology-label' },
+          tech.name
+        ) : null
+      );
+      elements.push(element);
+    });
+    return elements;
+  },
+  renderProjectSection: function renderProjectSection() {
     var details = this.state.pinnedCategory.details;
     var section = this.state.sectionSelected;
     return React.createElement(
@@ -31011,27 +31087,13 @@ var MajorList = React.createClass({
         React.createElement(
           'div',
           { className: 'project-technology-title' },
-          'Built on:'
+          this.state.pinnedCategory.techLabel,
+          ':'
         ),
         React.createElement(
           'div',
           { className: 'project-technology-container' },
-          section.technologies.map(function (tech) {
-            return React.createElement(
-              'div',
-              { key: tech.name + '-tech', className: 'project-technology' },
-              React.createElement('img', {
-                className: 'project-technology-icon',
-                src: 'src/assets/' + tech.icon + '-logo.png',
-                onMouseEnter: this.showTechLabel.bind(null, tech.name),
-                onMouseLeave: this.hideTechLabel }),
-              this.state.techLabel === tech.name ? React.createElement(
-                'div',
-                { className: 'project-technology-label' },
-                tech.name
-              ) : null
-            );
-          }.bind(this))
+          this.renderTechnologiesList()
         )
       ),
       React.createElement(
@@ -31065,6 +31127,29 @@ var MajorList = React.createClass({
       )
     );
   },
+  renderWorkDetails: function renderWorkDetails() {
+    var section = this.state.sectionSelected;
+    var details = section.workDetails;
+    if (details.length == 0) {
+      return React.createElement(
+        'div',
+        { className: 'in-progress' },
+        'In progress'
+      );
+    } else {
+      return React.createElement(
+        'div',
+        null,
+        details.map(function (detail) {
+          return React.createElement(
+            'div',
+            { key: detail.key, className: 'work-detail' },
+            detail.text
+          );
+        })
+      );
+    }
+  },
   renderExperienceSection: function renderExperienceSection() {
     var details = this.state.pinnedCategory.details;
     var section = this.state.sectionSelected;
@@ -31080,6 +31165,26 @@ var MajorList = React.createClass({
         'div',
         { className: 'job-title' },
         section.jobTitle
+      ),
+      section.workDetails.length > 0 ? React.createElement(
+        'div',
+        { className: 'project-technologies' },
+        React.createElement(
+          'div',
+          { className: 'project-technology-title' },
+          this.state.pinnedCategory.techLabel,
+          ':'
+        ),
+        React.createElement(
+          'div',
+          { className: 'project-technology-container' },
+          this.renderTechnologiesList()
+        )
+      ) : null,
+      React.createElement(
+        'div',
+        { className: 'work-details' },
+        this.renderWorkDetails()
       )
     );
   },
@@ -31094,7 +31199,7 @@ var MajorList = React.createClass({
     });
   },
   renderNav: function renderNav() {
-    var _this6 = this;
+    var _this7 = this;
 
     var details = this.state.pinnedCategory.details;
     var elements = [];
@@ -31103,16 +31208,16 @@ var MajorList = React.createClass({
         'div',
         {
           key: detail.title + '-nav-button',
-          className: _this6.state.sectionSelected === detail ? 'nav-button selected' : 'nav-button',
-          onClick: _this6.scrollNav.bind(_this6, detail),
-          onMouseEnter: _this6.showNavHelp.bind(_this6, detail),
-          onMouseLeave: _this6.hideNavHelp.bind(_this6, detail) },
+          className: _this7.state.sectionSelected === detail ? 'nav-button selected' : 'nav-button',
+          onClick: _this7.scrollNav.bind(_this7, detail),
+          onMouseEnter: _this7.showNavHelp.bind(_this7, detail),
+          onMouseLeave: _this7.hideNavHelp.bind(_this7, detail) },
         React.createElement(
           'div',
           { className: 'nav-button-icon' },
           detail.navIconText !== undefined ? detail.navIconText : React.createElement('i', { className: "fa fa-" + detail.navIcon, 'aria-hidden': 'true' })
         ),
-        _this6.state.navHelp === detail ? React.createElement(
+        _this7.state.navHelp === detail ? React.createElement(
           'div',
           { className: 'nav-button-help' },
           detail.title
