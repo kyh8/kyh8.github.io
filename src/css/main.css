@@ -1,0 +1,506 @@
+body {
+  font-family: 'Poiret One', cursive;
+  margin: 0;
+  background-color: #f1f1f1;
+}
+#body-container {
+  height:100vh;
+  width: 100vw;
+  max-width:100%;
+  display: table-cell;
+  vertical-align: middle;
+}
+#overlay {
+  width: 100vw;
+  height: 100vh;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: none;
+}
+#content {
+  display: inline-block;
+}
+.name-card {
+  padding-top: 30px;
+  font-size: 48px;
+  font-family: 'Amatica SC', cursive;
+}
+.name-card.opened {
+  padding-top: 0;
+  font-size: 40px;
+}
+#name-tag {
+  width: 370px;
+  height: 300px;
+  background-color: #53aad8;
+  border-radius: 30px;
+  box-shadow: 0 0 3px black;
+  cursor: default;
+}
+#hello-section {
+  position: relative;
+  top:30px;
+  color: white;
+  font-family: 'Arial Black';
+  z-index: 1;
+}
+#name-section-container {
+  position: relative;
+  top: 50px;
+}
+#name-section {
+  height: 130px;
+  background-color: white;
+}
+#duke-text {
+  font-family: 'EB Garamond';
+  font-size: 40px;
+  color: #001A57;
+}
+.statement {
+  margin-top: 10px;
+}
+#school-statement {
+  margin-top: 20px;
+  font-size: 36px;
+}
+#major-statement {
+  position: relative;
+  font-family: 'Poiret One';
+  background-color: #f1f1f1;
+  width: 150px;
+  bottom: -39px;
+  font-size: 20px;
+  margin-top: -28px;
+  cursor: default;
+  z-index: 1;
+}
+#majors {
+  font-size: 28px;
+  margin-top: 20px;
+}
+.unselectable {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;
+}
+.major-label {
+  margin-left: 10px;
+}
+.major {
+  cursor: pointer;
+  padding: 5px;
+  padding-left: 15px;
+}
+.major:hover {
+  background-color: #001A57;
+  color: white;
+  box-shadow: 0 0 2px black;
+}
+.h-divider {
+  border: 0;
+  height: 1px;
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.75),
+      rgba(0, 0, 0, 0));
+}
+.contact-info {
+  width: 370px;
+  height: 300px;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0 0 3px black;
+  transform: rotateY(180deg);
+}
+.contact-icon {
+  text-align: center;
+  width: 20px;
+  display: inline-block;
+}
+.contact-info-label {
+  width: 54px;
+  display: inline-block;
+  cursor: default;
+}
+.contact-tab {
+  cursor: pointer;
+  box-shadow: 0 0 2px black;
+  border-radius: 10px 10px 0px 0px;
+  border: 1px solid white;
+  border-bottom: none;
+  padding-top: 5px;
+  font-size: 14px;
+  width: 100px;
+  height: 40px;
+  position: absolute;
+}
+.personal-info-pane {
+  height: 270px;
+}
+.blurb {
+  font-size: 16px;
+  line-height: 24px;
+  width: 280px;
+  text-align: left;
+  border: 1px solid #D3D3D3;
+  border-radius: 10px;
+  padding: 10px;
+}
+.help-text {
+  font-size: 10px;
+  position: relative;
+  bottom: -60px;
+  color: white;
+  cursor: pointer;
+  width: 80px;
+}
+.help-text.opened {
+  bottom: -10px;
+  color: black;
+}
+.help-text.resume {
+  bottom: 0px;
+  color: black;
+}
+.show-overlay {
+  display: block !important;
+}
+/* entire container, keeps perspective */
+.flip-container {
+  perspective: 1000px;
+}
+
+.flip-container.opened .flipper {
+  transform: rotateY(180deg);
+}
+
+/* flip the pane when hovered */
+.contact-info.opened{
+  transform: rotateY(180deg);
+}
+
+.flip-container, .name-tag, .contact-info {
+  width: 370px;
+  height: 300px;
+}
+
+/* flip speed goes here */
+.flipper {
+  transition: 0.3s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+/* hide back of pane during swap */
+.name-tag, .contact-info{
+  backface-visibility: hidden;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* front pane, placed above back */
+.name-tag {
+  z-index: 2;
+  /* for firefox 31 */
+  transform: rotateY(0deg);
+}
+
+#resume-backdrop {
+  background-color: white;
+  width: 600px;
+  height: 520px;
+  top: -520px;
+  position: absolute;
+  z-index: 20;
+  border-radius: 10px;
+  box-shadow: 0 0 4px white;
+  text-align: center;
+}
+
+.skill-logo-container {
+  background-color: white;
+  margin-top: 130px;
+}
+.skill-logo {
+  position: absolute;
+  top: 75px;
+  left: 135px;
+  background-color: white;
+  border-radius: 50px;
+  border: 1px solid white;
+  box-shadow: 0 0 6px black;
+  z-index: 5;
+}
+.skill-logo.previous-skill {
+  position: absolute;
+  z-index: 4;
+  opacity: 0.3;
+  left: 65px;
+  cursor: pointer;
+}
+.skill-logo.next-skill {
+  position: absolute;
+  z-index: 4;
+  opacity: 0.3;
+  left: 205px;
+  cursor: pointer;
+}
+#selected-skill.right-scrolling {
+  z-index: 4;
+  -webkit-transform: translateX(-70px);
+  transform: translateX(-70px);
+  /*left: 65px;*/
+  opacity: 0.3;
+  transition: all 0.25s ease;
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  -ms-transition: all 0.25s ease;
+}
+#selected-skill.left-scrolling {
+  z-index: 4;
+  -webkit-transform: translateX(70px);
+  transform: translateX(70px);
+  /*left: 205px;*/
+  opacity: 0.3;
+  transition: all 0.25s ease;
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  -ms-transition: all 0.25s ease;
+}
+#previous-skill.left-scrolling {
+  z-index: 5;
+  -webkit-transform: translateX(70px);
+  transform: translateX(70px);
+  opacity: 1;
+  transition: all 0.25s ease;
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  -ms-transition: all 0.25s ease;
+}
+#next-skill.right-scrolling {
+  z-index: 5;
+  -webkit-transform: translateX(-70px);
+  transform: translateX(-70px);
+  opacity: 1;
+  transition: all 0.25s ease;
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  -ms-transition: all 0.25s ease;
+}
+#next-skill.left-scrolling,
+#previous-skill.right-scrolling {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  -o-transition: opacity 0.25s ease;
+  -ms-transition: opacity 0.25s ease;
+}
+.skill-level-pill {
+  margin-top: 5px;
+  border: 1px solid white;
+  height: 16px;
+  font-size: 12px;
+  width: 64px;
+  box-shadow: 0 0 2px black;
+  border-radius: 20px;
+  color: white;
+  cursor: default;
+  display: inline-block;
+}
+.expert {
+  background-color: #B20000;
+}
+.proficient {
+  background-color: #004700;
+}
+.work-experience {
+  background-color: #9bc2cf;
+  margin-left: 10px;
+  width: 100px;
+}
+.navigator-arrow {
+  position: absolute;
+  z-index: 7;
+  top: 110px;
+  cursor: pointer;
+}
+.navigator-arrow:hover {
+  opacity: 0.5;
+}
+.navigator-arrow.left {
+  left:20px;
+}
+.navigator-arrow.right {
+  right:20px;
+}
+.resume-title {
+  font-size: 54px;
+  font-family: 'Amatica SC', cursive;
+  padding-top: 10px;
+}
+#resume-contents {
+  display: flex;
+  justify-content: center;
+}
+.resume-icon {
+  width: 100px;
+  height: 60px;
+  color: white;
+  display: inline-block;
+  border-radius: 0 5px 5px 0;
+}
+.resume-icon .fa {
+  margin-top: 15px;
+}
+.resume-icon.coursework {
+  background-color: #8aacb8;
+}
+.resume-icon.projects {
+  background-color: #E6DD93;
+}
+.resume-icon.work {
+  background-color: #927B51;
+}
+.resume-category-wrapper {
+  width: 250px;
+  height: 60px;
+  box-shadow: 0 0 2px black;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  left: 110px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.resume-category-container {
+  margin-top: 30px;
+}
+.resume-category-container:first-child {
+  margin-top: 50px;
+}
+.resume-category {
+  display: inline-block;
+  text-align: right;
+  padding-right: 20px;
+  font-size: 20px;
+  width: 150px;
+  height: 60px;
+  background-color: white;
+  border-radius: 5px 0 0 5px;
+}
+.category-label {
+  margin-top:18px;
+}
+.resume-envelope {
+  height: 72px;
+  width: 180px;
+  position: absolute;
+  border-radius: 10px 3px 3px 10px;
+  border-left: 1px solid gray;
+  left: 100px;
+  background-color: white;
+  box-shadow: 0 0 3px black;
+  /*opacity: 0.8;*/
+}
+.resume-envelope.coursework {
+  top: 133px;
+}
+.resume-envelope.projects {
+  top: 223px;
+}
+.resume-envelope.work {
+  top: 313px;
+}
+.show-hover-preview {
+  left: 250px;
+  transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+}
+.hide-hover-preview {
+  left: 110px;
+  transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+}
+.animate-right {
+  left: 300px !important;
+  transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+}
+.animate-pin {
+  transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -ms-transition: all 0.4s ease;
+}
+.animate-pin.work {
+  transform: translate(-70px, -300px);
+}
+.animate-pin.projects {
+  transform: translate(-70px, -210px);
+}
+.animate-pin.coursework {
+  transform: translate(-70px, -120px);
+}
+#detail-view {
+  position: absolute;
+  width: 600px;
+  height: 520px;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+#category-selector {
+  width: 600px;
+}
+.resume-category-header {
+  cursor: default;
+}
+.resume-category-header.coursework {
+  left: 250px;
+  top: 139px;
+}
+.resume-category-header.projects {
+  left: 250px;
+  top: 229px;
+}
+.resume-category-header.work {
+  left: 250px;
+  top: 319px;
+}
+.back-button {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  display: none;
+}
+.back-button:hover {
+  opacity: 0.7;
+}
