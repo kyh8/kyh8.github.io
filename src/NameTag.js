@@ -450,7 +450,7 @@ var NameTag = React.createClass({
                           <img className="unselectable" src={"src/assets/about-me.png"} width={80} height={80} style={styles.aboutMeImage}/>
                         </div>
                         <div className="blurb">
-                          <div style={{width: 320, textAlign: 'center', fontSize: 18, marginBottom: 3}}>
+                          <div style={{width: 320, textAlign: 'center', fontWeight: 600, fontSize: 18, marginBottom: 3}}>
                             {intro}
                           </div>
                           <div>

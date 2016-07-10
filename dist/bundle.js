@@ -31786,7 +31786,7 @@ var NameTag = React.createClass({
                       { className: 'blurb' },
                       React.createElement(
                         'div',
-                        { style: { width: 320, textAlign: 'center', fontSize: 18, marginBottom: 3 } },
+                        { style: { width: 320, textAlign: 'center', fontWeight: 600, fontSize: 18, marginBottom: 3 } },
                         intro
                       ),
                       React.createElement(
