@@ -30880,6 +30880,17 @@ var styles = {
   image: {
     borderRadius: 100
   },
+  aboutMeImage: {
+    borderRadius: 80
+  },
+  aboutMeImageContainer: {
+    padding: 2,
+    border: '1px solid gray',
+    borderRadius: 80,
+    boxShadow: '0 0 3px black',
+    width: 80,
+    height: 80
+  },
   imageContainer: {
     marginTop: 20,
     padding: 2,
@@ -31301,6 +31312,11 @@ var NameTag = React.createClass({
                     ),
                     React.createElement(
                       'div',
+                      { style: styles.aboutMeImageContainer },
+                      React.createElement('img', { className: 'unselectable', src: "src/assets/about-me.png", width: 80, height: 80, style: styles.aboutMeImage })
+                    ),
+                    React.createElement(
+                      'div',
                       { style: { border: '1px solid black', width: 302, borderRadius: 10, padding: 2, marginTop: 10 } },
                       React.createElement(
                         'div',
@@ -31308,7 +31324,7 @@ var NameTag = React.createClass({
                         'Hi, I\'m ',
                         React.createElement(
                           'span',
-                          { style: { fontSize: 20 } },
+                          { style: { fontSize: 16 } },
                           'Kevin'
                         ),
                         '. I like to design user interfaces and build impactful software. I am passionate about creating things that will improve people\'s lives, and doing so with code. When I\'m not programming, I like to play League of Legends, browse reddit, and watch movies.'

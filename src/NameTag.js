@@ -13,6 +13,17 @@ var styles = {
   image: {
     borderRadius: 100,
   },
+  aboutMeImage: {
+    borderRadius: 80,
+  },
+  aboutMeImageContainer: {
+    padding: 2,
+    border:'1px solid gray',
+    borderRadius: 80,
+    boxShadow: '0 0 3px black',
+    width: 80,
+    height: 80
+  },
   imageContainer: {
     marginTop: 20,
     padding: 2,
@@ -422,9 +433,12 @@ var NameTag = React.createClass({
                         <div className="name-card opened">
                           <span>About me</span>
                         </div>
+                        <div style={styles.aboutMeImageContainer}>
+                          <img className="unselectable" src={"src/assets/about-me.png"} width={80} height={80} style={styles.aboutMeImage}/>
+                        </div>
                         <div style={{border: '1px solid black', width: 302, borderRadius:10, padding: 2, marginTop: 10}}>
                           <div className="blurb">
-                            Hi, I&#39;m <span style={{fontSize: 20}}>Kevin</span>.
+                            Hi, I&#39;m <span style={{fontSize: 16}}>Kevin</span>.
                             I like to design user interfaces and build impactful software.
                             I am passionate about creating things that will improve people&#39;s lives,
                             and doing so with code. When I&#39;m not programming, I like
