@@ -123,11 +123,19 @@ body {
 }
 .contact-icon {
   text-align: center;
-  width: 20px;
+  width: 40px;
   display: inline-block;
 }
+.contact-item {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 32px;
+}
+.contact-item:last-child {
+  margin-right: 0;
+}
 .contact-info-label {
-  width: 54px;
+  width: 64px;
   display: inline-block;
   cursor: default;
 }

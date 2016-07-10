@@ -11,16 +11,16 @@ var ContactItem = require('./ContactItem');
 
 var styles = {
   image: {
-    borderRadius: 80,
+    borderRadius: 150,
   },
   imageContainer: {
     marginTop: 10,
     padding: 2,
     border:'1px solid gray',
-    borderRadius: 80,
+    borderRadius: 120,
     boxShadow: '0 0 3px black',
-    width: 80,
-    height: 80
+    width: 120,
+    height: 120
   },
   contactLine: {
     marginLeft: 10,
@@ -29,10 +29,9 @@ var styles = {
     marginTop: 10,
   },
   contactInfoContainer: {
-    textAlign:'left',
+    textAlign:'center',
     width: 220,
-    paddingLeft: 20,
-    marginTop: 20,
+    marginTop: 10,
   },
   personalInfo: {
     backgroundColor: 'white',
@@ -73,6 +72,40 @@ var tabs = [
     selected: 3,
     unselected: 1,
   }
+];
+
+var contactItems = [
+  {
+    id: 'github-item',
+    label: 'Github',
+    icon: 'github',
+    text: 'kyh8',
+    link: 'https://github.com/kyh8'
+  },
+  {
+    id: 'linkedin-item',
+    label: 'LinkedIn',
+    icon: 'linkedin',
+    text: 'Kevin He',
+    link:
+      'https://www.linkedin.com/in/kevin-he-47074b105?trk=nav_responsive_tab_profile_pic'
+  },
+  {
+    id: 'facebook-item',
+    label: 'Facebook',
+    icon: 'facebook-official',
+    text: 'facebook.com',
+    link:
+      'https://www.facebook.com/kevin.he314'
+  },
+  {
+    id: 'email-item',
+    label: 'Email',
+    icon: 'envelope',
+    text: 'kyh8@duke.edu',
+    link:
+      'mailto:kyh8@duke.edu'
+  },
 ];
 
 var skills = [
@@ -351,29 +384,8 @@ var NameTag = React.createClass({
     return tabElements;
   },
   renderContactItems: function() {
-    var items = [
-      {
-        id: 'github-item',
-        label: 'Github',
-        icon: 'github',
-        text: 'kyh8',
-        link: 'https://github.com/kyh8'
-      },
-      {
-        id: 'email-item',
-        label: 'Email',
-        icon: 'envelope',
-        text: 'kyh8@duke.edu'
-      },
-      {
-        id: 'phone-item',
-        label: 'Phone',
-        icon: 'phone',
-        text: '(617)-538-3880'
-      },
-    ];
     var infoElements = [];
-    items.forEach(item => {
+    contactItems.forEach(item => {
       var element = (
         <ContactItem key={item.id} info={item} />
       );
@@ -530,7 +542,7 @@ var NameTag = React.createClass({
                           <span>Kevin He</span>
                         </div>
                         <div style={styles.imageContainer}>
-                          <img className="unselectable" src={"src/assets/profpic.jpg"} width={80} height={80} style={styles.image}/>
+                          <img className="unselectable" src={"src/assets/profpic.jpg"} width={120} height={120} style={styles.image}/>
                         </div>
                         <div style={styles.contactInfoContainer}>
                           {this.renderContactItems()}

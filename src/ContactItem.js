@@ -20,28 +20,12 @@ var styles = {
 var ContactItem = React.createClass({
   render: function() {
     return (
-      <div style={styles.contactItem}>
+      <div className="contact-item">
         <div className="contact-icon">
-          <i className={"fa fa-"+this.props.info.icon} aria-hidden="true"></i>
+          <a href={this.props.info.link} style={{textDecoration: 'none', color: 'black'}}>
+            <i className={"fa fa-"+this.props.info.icon} aria-hidden="true"></i>
+          </a>
         </div>
-        <span style={styles.contactLine}>
-          <div className="contact-info-label unselectable">
-            {this.props.info.label}:
-          </div>
-          <div style={styles.contactInfo}>
-            {(() => {
-              if (this.props.info.link !== undefined) {
-                return (
-                  <div style={{borderLeft: '4px solid #8AACB8', paddingLeft: '5px'}}>
-                    <a href={this.props.info.link} style={styles.linkText}>{this.props.info.text}</a>
-                  </div>
-                );
-              } else {
-                return (<span>{this.props.info.text}</span>);
-              }
-            })()}
-          </div>
-        </span>
       </div>
     );
   }

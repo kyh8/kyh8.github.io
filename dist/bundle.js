@@ -30463,47 +30463,16 @@ var ContactItem = React.createClass({
   displayName: 'ContactItem',
 
   render: function render() {
-    var _this = this;
-
     return React.createElement(
       'div',
-      { style: styles.contactItem },
+      { className: 'contact-item' },
       React.createElement(
         'div',
         { className: 'contact-icon' },
-        React.createElement('i', { className: "fa fa-" + this.props.info.icon, 'aria-hidden': 'true' })
-      ),
-      React.createElement(
-        'span',
-        { style: styles.contactLine },
         React.createElement(
-          'div',
-          { className: 'contact-info-label unselectable' },
-          this.props.info.label,
-          ':'
-        ),
-        React.createElement(
-          'div',
-          { style: styles.contactInfo },
-          function () {
-            if (_this.props.info.link !== undefined) {
-              return React.createElement(
-                'div',
-                { style: { borderLeft: '4px solid #8AACB8', paddingLeft: '5px' } },
-                React.createElement(
-                  'a',
-                  { href: _this.props.info.link, style: styles.linkText },
-                  _this.props.info.text
-                )
-              );
-            } else {
-              return React.createElement(
-                'span',
-                null,
-                _this.props.info.text
-              );
-            }
-          }()
+          'a',
+          { href: this.props.info.link, style: { textDecoration: 'none', color: 'black' } },
+          React.createElement('i', { className: "fa fa-" + this.props.info.icon, 'aria-hidden': 'true' })
         )
       )
     );
@@ -30540,18 +30509,15 @@ var resumeCategories = {
     categories: [{
       name: 'coursework',
       displayName: 'Coursework',
-      icon: 'graduation-cap',
-      color: '#8aacb8'
+      icon: 'graduation-cap'
     }, {
       name: 'projects',
       displayName: 'Projects',
-      icon: 'folder-open',
-      color: '#E6DD93'
+      icon: 'folder-open'
     }, {
       name: 'work',
       displayName: 'Experience',
-      icon: 'suitcase',
-      color: '#927B51'
+      icon: 'suitcase'
     }]
   },
   'Economics': {}
@@ -30622,18 +30588,18 @@ var MajorList = React.createClass({
     $('#overlay').delay(500).fadeOut(300);
   },
   mouseEnter: function mouseEnter(category) {
-    if (this.state.animating || this.state.pinned) {
+    if (this.state.animating) {
       return;
     }
     $('.resume-category-wrapper.' + category).addClass('show-hover-preview');
-    $('.resume-category-wrapper.' + category).removeClass('animate-left');
+    $('.resume-category-wrapper.' + category).removeClass('hide-hover-preview');
   },
   mouseLeave: function mouseLeave(category) {
-    if (this.state.animating || this.state.pinned) {
+    if (this.state.animating) {
       return;
     }
     $('.resume-category-wrapper.' + category).removeClass('show-hover-preview');
-    $('.resume-category-wrapper.' + category).addClass('animate-left');
+    $('.resume-category-wrapper.' + category).addClass('hide-hover-preview');
   },
   categorySelect: function categorySelect(selectedCategory) {
     var _this = this;
@@ -30648,7 +30614,7 @@ var MajorList = React.createClass({
     this.setState({
       animating: true
     });
-    $('.resume-category-wrapper.' + selectedCategory).removeClass('show-hover-preview').removeClass('animate-left');
+    $('.resume-category-wrapper.' + selectedCategory).removeClass('show-hover-preview hide-hover-preview');
 
     var details = document.getElementById('detail-view');
     var element = document.getElementById('resume-category-wrapper-' + selectedCategory);
@@ -30674,56 +30640,29 @@ var MajorList = React.createClass({
         duration: 200,
         queue: false,
         complete: function () {
-          $('.resume-category-header.' + selectedCategory).removeClass('animate-right').addClass('animate-pin');
-          setTimeout(function () {
-            this.setState({
-              animating: false,
-              pinned: true
-            });
-            $('.back-button').fadeIn(300);
-          }.bind(this), animationTime);
+          this.setState({
+            pinned: true
+          }, function () {
+            $('.resume-category-header.' + selectedCategory).removeClass('animate-right').addClass('animate-pin');
+            setTimeout(function () {
+              this.setState({
+                animating: false
+              });
+              $('.back-button').fadeIn(300);
+            }.bind(this), animationTime);
+          });
         }.bind(this)
       });
     }.bind(this), animationTime);
   },
   categoryDeselect: function categoryDeselect(category) {
-    var _this3 = this;
-
     if (!this.state.pinned) {
       return;
     }
-    var element = document.getElementById('resume-category-wrapper-' + category);
-    element.style.opacity = 0;
     console.log('deselect', category);
-    $('.back-button').fadeOut(300);
-    $('.resume-category-header.' + category).removeClass('animate-pin').addClass('animate-unpin');
-    setTimeout(function () {
-      $('.resume-title, #category-selector').animate({
-        opacity: 1
-      }, {
-        duration: 400,
-        queue: false,
-        complete: function () {
-          var _this2 = this;
-
-          var details = document.getElementById('detail-view');
-          details.style.zIndex = -1;
-          $('.resume-category-header.' + category).removeClass('animate-unpin').addClass('animate-left');
-          setTimeout(function () {
-            _this2.setState({
-              pinned: false,
-              pinnedCategory: null
-            }, function () {
-              $('.resume-category-header.' + category).removeClass('animate-left');
-              element.style.opacity = 1;
-            });
-          }.bind(this), 400);
-        }.bind(_this3)
-      });
-    }, 300);
   },
   renderList: function renderList() {
-    var _this4 = this;
+    var _this2 = this;
 
     var majorList = [];
     majors.forEach(function (major) {
@@ -30732,7 +30671,7 @@ var MajorList = React.createClass({
         {
           key: major.id,
           className: 'major',
-          onClick: _this4.showResume.bind(_this4, major.name) },
+          onClick: _this2.showResume.bind(_this2, major.name) },
         React.createElement('i', { className: "fa fa-" + major.icon, 'aria-hidden': 'true' }),
         React.createElement(
           'span',
@@ -30749,7 +30688,9 @@ var MajorList = React.createClass({
       'div',
       {
         id: "resume-category-header-" + category.name,
-        className: "resume-category-header " + category.name,
+        className: "resume-category-wrapper resume-category-header " + category.name,
+        onMouseEnter: this.mouseEnter.bind(this, category.name),
+        onMouseLeave: this.mouseLeave.bind(this, category.name),
         onClick: this.categorySelect.bind(this, category.name) },
       React.createElement(
         'div',
@@ -30772,7 +30713,7 @@ var MajorList = React.createClass({
       ),
       React.createElement(
         'div',
-        { style: { backgroundColor: category.color }, className: "resume-icon" },
+        { className: "resume-icon " + category.name },
         React.createElement('i', { className: "fa fa-" + category.icon, 'aria-hidden': 'true' })
       )
     );
@@ -30800,7 +30741,7 @@ var MajorList = React.createClass({
         ),
         React.createElement(
           'div',
-          { style: { backgroundColor: category.color }, className: "resume-icon" },
+          { className: "resume-icon " + category.name },
           React.createElement('i', { className: "fa fa-" + category.icon, 'aria-hidden': 'true' })
         )
       ),
@@ -30808,7 +30749,7 @@ var MajorList = React.createClass({
     );
   },
   renderCategoryList: function renderCategoryList() {
-    var _this5 = this;
+    var _this3 = this;
 
     if (this.state.resume === null) {
       return null;
@@ -30819,7 +30760,7 @@ var MajorList = React.createClass({
       return null;
     }
     categories.forEach(function (category) {
-      var element = _this5.renderCategoryElement(category);
+      var element = _this3.renderCategoryElement(category);
       categoryElements.push(element);
     });
     return categoryElements;
@@ -30883,16 +30824,16 @@ var ContactItem = require('./ContactItem');
 
 var styles = {
   image: {
-    borderRadius: 80
+    borderRadius: 150
   },
   imageContainer: {
     marginTop: 10,
     padding: 2,
     border: '1px solid gray',
-    borderRadius: 80,
+    borderRadius: 120,
     boxShadow: '0 0 3px black',
-    width: 80,
-    height: 80
+    width: 120,
+    height: 120
   },
   contactLine: {
     marginLeft: 10
@@ -30901,10 +30842,9 @@ var styles = {
     marginTop: 10
   },
   contactInfoContainer: {
-    textAlign: 'left',
+    textAlign: 'center',
     width: 220,
-    paddingLeft: 20,
-    marginTop: 20
+    marginTop: 10
   },
   personalInfo: {
     backgroundColor: 'white',
@@ -30941,6 +30881,32 @@ var tabs = [{
   color: '#90d0f2',
   selected: 3,
   unselected: 1
+}];
+
+var contactItems = [{
+  id: 'github-item',
+  label: 'Github',
+  icon: 'github',
+  text: 'kyh8',
+  link: 'https://github.com/kyh8'
+}, {
+  id: 'linkedin-item',
+  label: 'LinkedIn',
+  icon: 'linkedin',
+  text: 'Kevin He',
+  link: 'https://www.linkedin.com/in/kevin-he-47074b105?trk=nav_responsive_tab_profile_pic'
+}, {
+  id: 'facebook-item',
+  label: 'Facebook',
+  icon: 'facebook-official',
+  text: 'facebook.com',
+  link: 'https://www.facebook.com/kevin.he314'
+}, {
+  id: 'email-item',
+  label: 'Email',
+  icon: 'envelope',
+  text: 'kyh8@duke.edu',
+  link: 'mailto:kyh8@duke.edu'
 }];
 
 var skills = [{
@@ -31203,25 +31169,8 @@ var NameTag = React.createClass({
     return tabElements;
   },
   renderContactItems: function renderContactItems() {
-    var items = [{
-      id: 'github-item',
-      label: 'Github',
-      icon: 'github',
-      text: 'kyh8',
-      link: 'https://github.com/kyh8'
-    }, {
-      id: 'email-item',
-      label: 'Email',
-      icon: 'envelope',
-      text: 'kyh8@duke.edu'
-    }, {
-      id: 'phone-item',
-      label: 'Phone',
-      icon: 'phone',
-      text: '(617)-538-3880'
-    }];
     var infoElements = [];
-    items.forEach(function (item) {
+    contactItems.forEach(function (item) {
       var element = React.createElement(ContactItem, { key: item.id, info: item });
       infoElements.push(element);
     });
@@ -31436,7 +31385,7 @@ var NameTag = React.createClass({
                     React.createElement(
                       'div',
                       { style: styles.imageContainer },
-                      React.createElement('img', { className: 'unselectable', src: "src/assets/profpic.jpg", width: 80, height: 80, style: styles.image })
+                      React.createElement('img', { className: 'unselectable', src: "src/assets/profpic.jpg", width: 120, height: 120, style: styles.image })
                     ),
                     React.createElement(
                       'div',
