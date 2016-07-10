@@ -31523,7 +31523,7 @@ var skills = [{
 }];
 
 var intro = "Hi, I'm Kevin.";
-var blurb = "I like to design user interfaces and build impactful software. " + "I'm passionate about creating things with code that will improve people's lives. " + "When I'm not programming, I like to browse reddit, " + "play League of Legends, and watch movies.";
+var blurb = "I like to design user interfaces and build impactful software. " + "I'm passionate about coding things that will improve people's lives. " + "When I'm not programming, I like to browse reddit, " + "play League of Legends, and watch movies.";
 
 var NameTag = React.createClass({
   displayName: 'NameTag',
@@ -31786,7 +31786,7 @@ var NameTag = React.createClass({
                       { className: 'blurb' },
                       React.createElement(
                         'div',
-                        { style: { width: 300, textAlign: 'center', fontSize: 16, marginBottom: 5 } },
+                        { style: { width: 320, textAlign: 'center', fontSize: 18, marginBottom: 3 } },
                         intro
                       ),
                       React.createElement(

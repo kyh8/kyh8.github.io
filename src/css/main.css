@@ -166,9 +166,9 @@ body {
   height: 270px;
 }
 .blurb {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 18px;
-  width: 300px;
+  width: 320px;
   text-align: left;
   padding: 10px;
 }
@@ -185,7 +185,7 @@ body {
   color: black;
 }
 .help-text.resume {
-  bottom: 0px;
+  bottom: 4px;
   color: black;
 }
 .show-overlay {
