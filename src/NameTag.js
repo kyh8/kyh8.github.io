@@ -56,7 +56,7 @@ var styles = {
     fontSize: 32,
   },
   skillSubtitle: {
-    fontSize: 12,
+    fontSize: 14,
   },
 };
 
