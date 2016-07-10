@@ -30509,15 +30509,18 @@ var resumeCategories = {
     categories: [{
       name: 'coursework',
       displayName: 'Coursework',
-      icon: 'graduation-cap'
+      icon: 'graduation-cap',
+      color: '#8aacb8'
     }, {
       name: 'projects',
       displayName: 'Projects',
-      icon: 'folder-open'
+      icon: 'folder-open',
+      color: '#E6DD93'
     }, {
       name: 'work',
       displayName: 'Experience',
-      icon: 'suitcase'
+      icon: 'suitcase',
+      color: '#927B51'
     }]
   },
   'Economics': {}
@@ -30588,18 +30591,18 @@ var MajorList = React.createClass({
     $('#overlay').delay(500).fadeOut(300);
   },
   mouseEnter: function mouseEnter(category) {
-    if (this.state.animating) {
+    if (this.state.animating || this.state.pinned) {
       return;
     }
     $('.resume-category-wrapper.' + category).addClass('show-hover-preview');
-    $('.resume-category-wrapper.' + category).removeClass('hide-hover-preview');
+    $('.resume-category-wrapper.' + category).removeClass('animate-left');
   },
   mouseLeave: function mouseLeave(category) {
-    if (this.state.animating) {
+    if (this.state.animating || this.state.pinned) {
       return;
     }
     $('.resume-category-wrapper.' + category).removeClass('show-hover-preview');
-    $('.resume-category-wrapper.' + category).addClass('hide-hover-preview');
+    $('.resume-category-wrapper.' + category).addClass('animate-left');
   },
   categorySelect: function categorySelect(selectedCategory) {
     var _this = this;
@@ -30614,7 +30617,7 @@ var MajorList = React.createClass({
     this.setState({
       animating: true
     });
-    $('.resume-category-wrapper.' + selectedCategory).removeClass('show-hover-preview hide-hover-preview');
+    $('.resume-category-wrapper.' + selectedCategory).removeClass('show-hover-preview').removeClass('animate-left');
 
     var details = document.getElementById('detail-view');
     var element = document.getElementById('resume-category-wrapper-' + selectedCategory);
@@ -30640,29 +30643,56 @@ var MajorList = React.createClass({
         duration: 200,
         queue: false,
         complete: function () {
-          this.setState({
-            pinned: true
-          }, function () {
-            $('.resume-category-header.' + selectedCategory).removeClass('animate-right').addClass('animate-pin');
-            setTimeout(function () {
-              this.setState({
-                animating: false
-              });
-              $('.back-button').fadeIn(300);
-            }.bind(this), animationTime);
-          });
+          $('.resume-category-header.' + selectedCategory).removeClass('animate-right').addClass('animate-pin');
+          setTimeout(function () {
+            this.setState({
+              animating: false,
+              pinned: true
+            });
+            $('.back-button').fadeIn(300);
+          }.bind(this), animationTime);
         }.bind(this)
       });
     }.bind(this), animationTime);
   },
   categoryDeselect: function categoryDeselect(category) {
+    var _this3 = this;
+
     if (!this.state.pinned) {
       return;
     }
+    var element = document.getElementById('resume-category-wrapper-' + category);
+    element.style.opacity = 0;
     console.log('deselect', category);
+    $('.back-button').fadeOut(300);
+    $('.resume-category-header.' + category).removeClass('animate-pin').addClass('animate-unpin');
+    setTimeout(function () {
+      $('.resume-title, #category-selector').animate({
+        opacity: 1
+      }, {
+        duration: 400,
+        queue: false,
+        complete: function () {
+          var _this2 = this;
+
+          var details = document.getElementById('detail-view');
+          details.style.zIndex = -1;
+          $('.resume-category-header.' + category).removeClass('animate-unpin').addClass('animate-left');
+          setTimeout(function () {
+            _this2.setState({
+              pinned: false,
+              pinnedCategory: null
+            }, function () {
+              $('.resume-category-header.' + category).removeClass('animate-left');
+              element.style.opacity = 1;
+            });
+          }.bind(this), 400);
+        }.bind(_this3)
+      });
+    }, 300);
   },
   renderList: function renderList() {
-    var _this2 = this;
+    var _this4 = this;
 
     var majorList = [];
     majors.forEach(function (major) {
@@ -30671,7 +30701,7 @@ var MajorList = React.createClass({
         {
           key: major.id,
           className: 'major',
-          onClick: _this2.showResume.bind(_this2, major.name) },
+          onClick: _this4.showResume.bind(_this4, major.name) },
         React.createElement('i', { className: "fa fa-" + major.icon, 'aria-hidden': 'true' }),
         React.createElement(
           'span',
@@ -30688,9 +30718,7 @@ var MajorList = React.createClass({
       'div',
       {
         id: "resume-category-header-" + category.name,
-        className: "resume-category-wrapper resume-category-header " + category.name,
-        onMouseEnter: this.mouseEnter.bind(this, category.name),
-        onMouseLeave: this.mouseLeave.bind(this, category.name),
+        className: "resume-category-header " + category.name,
         onClick: this.categorySelect.bind(this, category.name) },
       React.createElement(
         'div',
@@ -30713,7 +30741,7 @@ var MajorList = React.createClass({
       ),
       React.createElement(
         'div',
-        { className: "resume-icon " + category.name },
+        { style: { backgroundColor: category.color }, className: "resume-icon" },
         React.createElement('i', { className: "fa fa-" + category.icon, 'aria-hidden': 'true' })
       )
     );
@@ -30741,7 +30769,7 @@ var MajorList = React.createClass({
         ),
         React.createElement(
           'div',
-          { className: "resume-icon " + category.name },
+          { style: { backgroundColor: category.color }, className: "resume-icon" },
           React.createElement('i', { className: "fa fa-" + category.icon, 'aria-hidden': 'true' })
         )
       ),
@@ -30749,7 +30777,7 @@ var MajorList = React.createClass({
     );
   },
   renderCategoryList: function renderCategoryList() {
-    var _this3 = this;
+    var _this5 = this;
 
     if (this.state.resume === null) {
       return null;
@@ -30760,7 +30788,7 @@ var MajorList = React.createClass({
       return null;
     }
     categories.forEach(function (category) {
-      var element = _this3.renderCategoryElement(category);
+      var element = _this5.renderCategoryElement(category);
       categoryElements.push(element);
     });
     return categoryElements;
@@ -30844,7 +30872,7 @@ var styles = {
   contactInfoContainer: {
     textAlign: 'center',
     width: 220,
-    marginTop: 10
+    marginTop: 15
   },
   personalInfo: {
     backgroundColor: 'white',

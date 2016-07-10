@@ -31,7 +31,7 @@ var styles = {
   contactInfoContainer: {
     textAlign:'center',
     width: 220,
-    marginTop: 10,
+    marginTop: 15,
   },
   personalInfo: {
     backgroundColor: 'white',
