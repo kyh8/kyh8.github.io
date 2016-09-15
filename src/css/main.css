@@ -516,6 +516,7 @@ body {
   cursor: pointer;
   position: absolute;
   top: 8px;
+  left: 0;
   display: none;
 }
 .back-button:hover {
