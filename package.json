@@ -16,12 +16,12 @@
   },
   "babel": {
     "presets": [
-      "react",
-      "es2015"
+      "es2015",
+      "react"
     ]
   },
   "scripts": {
-    "watch": "watchify -t [ babelify ] main.js -o dist/bundle.js -v",
-    "build": "browserify -t [ babelify ] main.js  | uglifyjs -mc warnings=false > dist/bundle.js"
+    "watch": "watchify -t [ babelify ] src/js/main.js -o dist/bundle.js -v",
+    "build": "browserify -t [ babelify ] src/js/main.js  | uglifyjs -mc warnings=false > dist/bundle.js"
   }
 }
