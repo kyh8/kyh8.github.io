@@ -20424,6 +20424,9 @@ var App = exports.App = function (_React$Component) {
       event && event.stopPropagation();
       this.setState({
         selectedNode: null,
+        selectedSkillIndex: -1,
+        selectedJobIndex: -1,
+        selectedProjectIndex: -1,
         isReturning: true
       }, function () {
         setTimeout(function () {
@@ -20675,10 +20678,14 @@ var App = exports.App = function (_React$Component) {
           tooltip: _this8._getTooltip(key),
           nodeName: key,
           onMouseEnter: function onMouseEnter() {
-            return toggleHandler(index);
+            toggleHandler(index);
           },
           onMouseLeave: function onMouseLeave() {
-            return toggleHandler(-1);
+            toggleHandler(-1);
+          },
+          onClick: function onClick() {
+            // for mobile viewers
+            toggleHandler(index);
           }
         }));
       });

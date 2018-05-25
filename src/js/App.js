@@ -64,6 +64,9 @@ export class App extends React.Component {
     event && event.stopPropagation();
     this.setState({
       selectedNode: null,
+      selectedSkillIndex: -1,
+      selectedJobIndex: -1,
+      selectedProjectIndex: -1,
       isReturning: true,
     }, () => {
       setTimeout(() => {
@@ -307,8 +310,16 @@ export class App extends React.Component {
           uri={node.uri}
           tooltip={this._getTooltip(key)}
           nodeName={key}
-          onMouseEnter={() => toggleHandler(index)}
-          onMouseLeave={() => toggleHandler(-1)}
+          onMouseEnter={() => {
+            toggleHandler(index);
+          }}
+          onMouseLeave={() => {
+            toggleHandler(-1);
+          }}
+          onClick={() => {
+            // for mobile viewers
+            toggleHandler(index);
+          }}
         />
       );
     });
