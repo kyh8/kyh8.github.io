@@ -8,7 +8,7 @@ export class ProfileNode extends React.Component {
 
   render() {
     const isSelected = this.props.selectedNode === this.props.name;
-    let className = 'node';
+    let className = 'unselectable node';
     if (isSelected) {
       className += ' selected-node';
     } else if (this.props.selectedNode && !isSelected) {

@@ -20576,7 +20576,7 @@ var App = exports.App = function (_React$Component) {
       return React.createElement(
         'div',
         {
-          className: 'about-me',
+          className: 'about-me unselectable',
           onMouseDown: function onMouseDown() {
             return _this6._pressNode(true);
           },
@@ -20865,23 +20865,23 @@ var App = exports.App = function (_React$Component) {
           React.createElement(
             'div',
             {
-              className: this.state.picturePressed ? 'about-me-node-container node-pressed centered-container' : 'about-me-node-container centered-container',
+              className: this.state.picturePressed ? 'about-me-node-container node-pressed unselectable centered-container' : 'about-me-node-container unselectable centered-container',
               id: 'about-me-node' },
             this._renderBio()
           ),
           this._renderProfileNodes(),
-          this._renderContentNodes()
+          this._renderContentNodes(),
+          React.createElement(
+            'div',
+            { className: 'content-section' },
+            this._renderDescription()
+          )
         ),
         React.createElement(
           'div',
           { className: this.state.isReturning ? 'about-me-section about-me-moving' : 'about-me-section' },
           this.state.selectedNode ? React.createElement('div', { className: 'mask' }) : null,
           this._renderBioInfo()
-        ),
-        React.createElement(
-          'div',
-          { className: 'content-section' },
-          this._renderDescription()
         )
       );
     }
@@ -20975,7 +20975,7 @@ var ContentNode = exports.ContentNode = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var className = 'content-node ' + this.props.nodeName;
+      var className = 'unselectable content-node ' + this.props.nodeName;
       if (this.props.showLabel) {
         className += ' show-content-label';
       }
@@ -21157,7 +21157,7 @@ var ProfileNode = exports.ProfileNode = function (_React$Component) {
       var _this2 = this;
 
       var isSelected = this.props.selectedNode === this.props.name;
-      var className = 'node';
+      var className = 'unselectable node';
       if (isSelected) {
         className += ' selected-node';
       } else if (this.props.selectedNode && !isSelected) {

@@ -194,7 +194,7 @@ export class App extends React.Component {
   _renderBio() {
     return (
       <div
-        className={'about-me'}
+        className={'about-me unselectable'}
         onMouseDown={() => this._pressNode(true)}
         onMouseLeave={() => this._pressNode(false)}
         onMouseUp={() => this._pressNode(false)}
@@ -461,14 +461,17 @@ export class App extends React.Component {
           <div
             className={
               this.state.picturePressed
-              ? 'about-me-node-container node-pressed centered-container'
-              : 'about-me-node-container centered-container'
+              ? 'about-me-node-container node-pressed unselectable centered-container'
+              : 'about-me-node-container unselectable centered-container'
             }
             id={'about-me-node'}>
             {this._renderBio()}
           </div>
           {this._renderProfileNodes()}
           {this._renderContentNodes()}
+          <div className='content-section'>
+            {this._renderDescription()}
+          </div>
         </div>
         <div className={
           this.state.isReturning
@@ -477,9 +480,6 @@ export class App extends React.Component {
         }>
           {this.state.selectedNode ? <div className='mask'/> : null}
           {this._renderBioInfo()}
-        </div>
-        <div className='content-section'>
-          {this._renderDescription()}
         </div>
       </div>
     );

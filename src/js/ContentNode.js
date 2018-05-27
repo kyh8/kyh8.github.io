@@ -7,7 +7,7 @@ export class ContentNode extends React.Component {
   }
 
   render() {
-    let className = 'content-node ' + this.props.nodeName;
+    let className = 'unselectable content-node ' + this.props.nodeName;
     if (this.props.showLabel) {
       className += ' show-content-label';
     }
